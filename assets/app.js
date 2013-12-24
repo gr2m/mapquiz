@@ -1,6 +1,7 @@
 // create a map in the "map" div, set the view to a given place and zoom
 var map;
 var countriesLayer;
+var countriesNames;
 var southWest = L.latLng(180, -60);
 var northEast = L.latLng(-180, 180);
 var maxBounds = L.latLngBounds(southWest, northEast);
@@ -26,6 +27,11 @@ countriesLayer = L.geoJson(countriesGeoJson, {
     style: style,
     onEachFeature: onEachFeature
 }).addTo(map);
+
+countriesNames = _(countriesLayer.getLayers())
+    .map(function(layer) {
+      return layer.feature.properties.name
+    })
 
 // show world map
 // map.fitBounds(countriesLayer.getBounds());
@@ -75,43 +81,76 @@ var $options = $('#options');
 function showOptionsFor (layer) {
   var optionsHtml = []
   var currentCountryName = layer.feature.properties.name;
+  var countriesMappedByLetter = {}
+  var countriesNamesOptions
+  countriesMappedByLetter[currentCountryName[0].toLowerCase()] = currentCountryName;
+
+  // shuffle country names
+  countriesNames = _.shuffle(countriesNames)
+
+  countriesNamesOptions = _(countriesNames).chain()
+      .reduce(function(countriesMappedByLetter, countryName) {
+        var currentLetter = countryName[0].toLowerCase()
+
+        // do only allow one country per letter
+        if (countriesMappedByLetter[currentLetter]) {
+          return countriesMappedByLetter
+        }
+
+        // do only allow for max. 4 options
+        if (_.values(countriesMappedByLetter).length === 4) {
+          return countriesMappedByLetter
+        }
+
+        //
+        countriesMappedByLetter[currentLetter] = countryName;
+
+        return countriesMappedByLetter;
+      }, countriesMappedByLetter)
+      .values()
+      .value();
 
   // show 4 random options
-  optionsHtml = _(countriesLayer.getLayers()).chain()
-  .sample(4)
-  .map(function(layer) {
-    return layer.feature.properties.name
-  })
-  .union([currentCountryName])
-  .last(4)
-  .shuffle()
-  .map(function(countryName) {
-    return '<b>' + countryName + '</b>'
-  })
-  .reduce(function(memo, buttonHtml) {
-    return memo + buttonHtml;
-  }, '')
-  .value();
+  optionsHtml = _(countriesNamesOptions).chain()
+      .sort()
+      .map(function(countryName) {
+        var firstLetter = countryName[0].toLowerCase();
+        return '<b accesskey="'+firstLetter+'">' + countryName + '</b>'
+      })
+      .reduce(function(memo, buttonHtml) {
+        return memo + buttonHtml;
+      }, '')
+      .value();
 
   $options.html( optionsHtml );
-
-  // replace one of them with correct answer
-  $options.eq( _.random(3) ).text(  )
 }
 
 $options.on('click', 'b', function() {
   var $button = $(this)
   var selectedCountryName = $button.text()
   if (selectedCountryName === currentLayer.feature.properties.name) {
-    $button.blur()
-    return goToRandomLayer()
+    var $answer = $('<div id="answer">'+selectedCountryName+'</div>');
+    $answer.appendTo(document.body);
+    fitText($answer[0], 1.2)
+    $answer.addClass('animated bounceOut')
+    setTimeout( $.proxy( $answer.remove, $answer), 1000)
+    setTimeout( goToRandomLayer, 700)
+    return
   }
   $button.siblings().removeClass('active')
   $button.addClass('animated shake active')
   setTimeout($.proxy( $button.removeClass, $button), 1000, 'animated shake')
 });
 
-// keyboard shortcuts
+// keyboard shortcuts to select options by first letter
+var allLetters = 'abcdefghijklmnopqrstuvwxyz'.split('');
+_(allLetters).each(function(letter) {
+  Mousetrap.bind( letter , function() {
+    $options.find('[accesskey="'+letter+'"]').eq(0).trigger('click')
+  });
+});
+
+// additional shortcuts to select options by number
 Mousetrap.bind('1', function() {
   $options.find('b').eq(0).trigger('click')
 });
