@@ -1,0 +1,25 @@
+{
+  "name": "janasmapquiz",
+  "version": "0.0.1",
+  "authors": [
+    "Gregor Martynus <gregor@martynus.net>"
+  ],
+  "description": "Jana's Map Quiz",
+  "main": "index.html",
+  "license": "MIT",
+  "homepage": "http://gr2m.github.io/janasmapquiz",
+  "private": true,
+  "ignore": [
+    "**/.*",
+    "node_modules",
+    "bower_components",
+    "test",
+    "tests"
+  ],
+  "dependencies": {
+    "jquery": "~2.0.3",
+    "leaflet": "https://raw.github.com/Leaflet/Leaflet/gh-pages/dist/leaflet.js",
+    "animate.css": "~3.0.0",
+    "mousetrap": "~1.4.6"
+  }
+}

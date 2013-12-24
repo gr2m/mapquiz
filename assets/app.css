@@ -1,0 +1,79 @@
+* {
+  padding: 0;
+  margin: 0;
+}
+html, body {
+  height: 100%;
+}
+body {
+  font-family: helvetica, arial;
+}
+#map {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  /*bottom: 140px;*/
+
+  background-color:#49a8fd;
+  z-index: 1;
+}
+.leaflet-map-pane {
+
+}
+
+#options {
+  z-index: 2;
+  position: fixed;
+  bottom: -1px;
+  left: 0;
+  right: 0;
+}
+#options b {
+  font-weight: normal;
+  display: block;
+
+  max-width: 480px;
+  width: 100%;
+  text-align: center;
+  margin: 0 auto;
+  background: rgba(255,255,255,.4);
+  text-shadow: 0 0 2px #fff, 0 0 2px #fff;
+  color: #000;
+  font-size: 20px;
+  line-height: 30px;
+  padding: 2px 0 2px;
+  border-bottom: 1px solid rgba(255,255,255,.4);
+}
+#options b:hover {
+  background: #fff;
+  cursor: pointer;
+}
+#options b.active {
+  background: #fff;
+}
+
+@media(min-width: 480px) {
+  #map {
+    bottom: 0;
+  }
+  #options b:first-child {
+    border-radius: 5px 5px 0 0;
+    padding: 4px 0;
+  }
+}
+
+.leaflet-control-attribution {
+  display: none;
+}
+
+* {
+    margin: 0;
+    padding: 0;
+}
+
+a {
+    color: white;
+    font-style: italic;
+}
