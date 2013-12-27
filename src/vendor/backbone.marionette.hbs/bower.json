@@ -1,0 +1,9 @@
+{
+  "name": "Backbone.Marionette.hbs",
+  "version": "0.0.6",
+  "main": "backbone.marionette.hbs.js",
+  "dependencies": {
+    "handlebars": "~1.0.0",
+    "requirejs-text": "~2.0.10"
+  }
+}

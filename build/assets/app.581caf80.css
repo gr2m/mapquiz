@@ -1,0 +1,126 @@
+* {
+  padding: 0;
+  margin: 0;
+}
+html, body {
+  height: 100%;
+}
+body {
+  font-family: helvetica, arial;
+}
+#map {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  /*bottom: 140px;*/
+
+  background-color:#49a8fd;
+  z-index: 1;
+}
+.leaflet-map-pane {
+
+}
+
+#options {
+  z-index: 2;
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  background: rgba(255,255,255,.2);
+  height: 100px;
+}
+
+/* small screens: do only show 1st letter in big */
+#options b {
+  font-weight: bold;
+  float: left;
+  width: 25%;
+  height: 100px;
+  line-height: 100px;
+  font-size: 0;
+  text-align: center;
+  color: #fff;
+}
+#options b:first-letter {
+  font-size: 80px;
+}
+
+#answer {
+  position: absolute;
+  top: 50%;
+  left: 0;
+  right: 0;
+  height: 200px;
+  margin: -100px 0 0;
+  z-index: 3;
+  color: #fff;
+  text-align: center;
+}
+
+@media(min-width: 480px) {
+  #map {
+    bottom: 0;
+  }
+  #options b:first-child {
+    border-radius: 5px 5px 0 0;
+    padding: 4px 0;
+  }
+  #answer {
+    margin-top: -100px;
+  }
+
+  #options {
+    background: transparent;
+    height: auto;
+  }
+  #options b {
+    font-weight: normal;
+    display: block;
+    float: none;
+
+    max-width: 568px;
+    width: 100%;
+    text-align: center;
+    margin: 0 auto;
+    background: rgba(255,255,255,.4);
+    text-shadow: 0 0 2px #fff, 0 0 2px #fff;
+    color: #000;
+    font-size: 20px;
+    line-height: 30px;
+    height: auto;
+    padding: 2px 0 2px;
+    border-top: 1px solid rgba(255,255,255,.4);
+  }
+  #options b.active {
+    background: #fff;
+  }
+  #options b:first-letter {
+    font-size: 20px;
+    line-height: 30px;
+  }
+  #options b:hover {
+    background: #fff;
+    cursor: pointer;
+  }
+
+  html:not(.touch) #options b:first-letter {
+    text-decoration: underline;
+  }
+}
+
+.leaflet-control-attribution {
+  display: none;
+}
+
+* {
+    margin: 0;
+    padding: 0;
+}
+
+a {
+    color: white;
+    font-style: italic;
+}

@@ -1,0 +1,20 @@
+{
+  "name": "Backbone.Marionette.hbs",
+  "version": "0.0.6",
+  "main": "backbone.marionette.hbs.js",
+  "dependencies": {
+    "handlebars": "~1.0.0",
+    "requirejs-text": "~2.0.10"
+  },
+  "homepage": "https://github.com/svnlto/backbone.marionette.hbs",
+  "_release": "0.0.6",
+  "_resolution": {
+    "type": "version",
+    "tag": "v0.0.6",
+    "commit": "fcd1d0a988729fa027170826e54f18cbf75a1206"
+  },
+  "_source": "git://github.com/svnlto/backbone.marionette.hbs.git",
+  "_target": "~0.0.6",
+  "_originalSource": "backbone.marionette.hbs",
+  "_direct": true
+}
