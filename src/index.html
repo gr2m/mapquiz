@@ -25,23 +25,11 @@
 <body>
   <div id="map"></div>
   <div id="options"></div>
-
-  <!-- build:js vendor.js -->
-  <script src="vendor/modernizr/modernizr.js"></script>
-  <script src="vendor/jquery/jquery.js"></script>
-  <script src="vendor/leaflet/leaflet.js"></script>
-  <script src="vendor/fastclick/lib/fastclick.js"></script>
-  <script src="vendor/underscore/underscore.js"></script>
-  <script src="vendor/mousetrap/mousetrap.js"></script>
-  <script src="vendor/fittext/fittext.js"></script>
-  <!-- endbuild -->
-
-  <!-- build:js data.js -->
-  <script src="data/countries.js"></script>
-  <!-- endbuild -->
-
-  <!-- build:js app.js -->
-  <script src="app/main.js"></script>
-  <!-- endbuild -->
+  <script data-main="app/config" src="vendor/requirejs/require.js"></script>
+  <script>
+    require(['main'], function() {
+      // let's go
+    })
+  </script>
 </body>
 </html>

@@ -1,4 +1,9 @@
 {
+  "wtf": {
+    "wtf": {
+      "wtf": "wtf"
+    }
+  },
   "name": "janasmapquiz",
   "version": "0.0.1",
   "authors": [
@@ -25,6 +30,12 @@
     "fittext": "*",
     "lodash": "~2.4.1",
     "backbone": "~1.1.0",
-    "backbone.marionette.hbs": "~0.0.6"
+    "backbone.marionette": "~1.4.1",
+    "backbone.marionette.hbs": "~0.0.6",
+    "requirejs": "~2.1.9",
+    "requirejs-text": "~2.0.10"
+  },
+  "devDependencies": {
+    "almond": "~0.2.7"
   }
 }

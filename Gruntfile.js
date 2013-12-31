@@ -8,6 +8,7 @@ module.exports = function(grunt) {
   // Project configuration.
   grunt.initConfig({
 
+
     // load app meta info
     pkg: grunt.file.readJSON('package.json'),
 
@@ -75,6 +76,15 @@ module.exports = function(grunt) {
     clean: {
       build: {
         src: ['build', '.tmp']
+      },
+
+      // requirejs copies over all files from src/app,
+      // I coudn't figure out how to limit that. So to
+      // clean up, we remove all files in build/ folder
+      // right after the requirejs task, excluding the
+      // files we actually want
+      requirejs: {
+        src: ['build/*.js', '!build/{main,vendor}.js']
       }
     },
 
@@ -109,6 +119,42 @@ module.exports = function(grunt) {
       html: 'build/index.html'
     },
 
+    requirejs: {
+      build: {
+        options: {
+          mainConfigFile: 'src/app/config.js',
+
+          paths: {
+            // WHY THE FUCK I NEED THIS?!
+            '../data/countries': '../data/countries'
+          },
+
+          preserveLicenseComments: false, // true
+          optimize: 'none', // uglify
+          optimizeCss: 'none',
+
+          appDir: 'src/app',
+          baseUrl: './',
+          dir: 'build',
+          almond: true,
+          modules: [
+            {
+              name: 'vendor',
+              include: [
+                '../src/vendor/almond/almond'
+              ]
+            },
+            {
+              name: 'main',
+              exclude: [
+                'vendor'
+              ]
+            }
+          ]
+        }
+      }
+    },
+
     // Static asset revisioning through file content hash
     // https://github.com/yeoman/grunt-filerev
     filerev: {
@@ -134,7 +180,7 @@ module.exports = function(grunt) {
       },
       all: {
         dest: 'build/manifest.appcache',
-        cache: 'build/**',
+        cache: ['build/*', 'build/assets/*'],
         network: '*',
         fallback: '/ /'
       }
@@ -148,6 +194,14 @@ module.exports = function(grunt) {
         replacements: [{
           from: /<html([^>]*)>/,
           to: '<html$1 manifest="manifest.appcache">'
+        }, {
+          from: '<script data-main="app/config" src="vendor/requirejs/require.js"></script>',
+          to: function() {
+            var vendorFilename = grunt.filerev.summary['build/vendor.js'].substr(6);
+            var mainFilename = grunt.filerev.summary['build/main.js'].substr(6);
+
+            return '<script src="'+vendorFilename+'"></script><script src="'+mainFilename+'"></script>';
+          }
         }]
       }
     },
@@ -181,6 +235,8 @@ module.exports = function(grunt) {
   grunt.loadNpmTasks('grunt-contrib-concat');
   grunt.loadNpmTasks('grunt-contrib-cssmin');
   grunt.loadNpmTasks('grunt-contrib-uglify');
+  grunt.loadNpmTasks('grunt-contrib-requirejs');
+  // grunt.loadNpmTasks('grunt-requirejs');
 
   // https://github.com/yeoman/grunt-filerev
   grunt.loadNpmTasks('grunt-filerev');
@@ -196,6 +252,6 @@ module.exports = function(grunt) {
 
   // Default task(s).
   grunt.registerTask('default', ['watch']);
-  grunt.registerTask('build', ['jshint:server', 'clean', 'useminPrepare', 'copy', 'concat', 'uglify', 'cssmin', 'filerev', 'appcache', 'replace:build', 'usemin']);
+  grunt.registerTask('build', ['jshint:server', 'clean:build', 'requirejs', 'clean:requirejs', 'useminPrepare', 'copy', 'concat', 'cssmin', 'filerev', 'appcache', 'replace:build', 'usemin']);
   grunt.registerTask('server', ['connect:server', 'watch:server']);
 };

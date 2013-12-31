@@ -16,7 +16,7 @@ body {
   bottom: 0;
   /*bottom: 140px;*/
 
-  background-color:#49a8fd;
+  background-color: #49a8fd;
   z-index: 1;
 }
 .leaflet-map-pane {
@@ -115,12 +115,7 @@ body {
   display: none;
 }
 
-* {
-    margin: 0;
-    padding: 0;
-}
-
 a {
-    color: white;
-    font-style: italic;
+  color: white;
+  font-style: italic;
 }
