@@ -54,43 +54,119 @@ and encoure you to fork and build upon it.
 
 ### Folder / File Structure
 
----
-/src/index.html: Starting point of the app. During the build process,
-                 the CSS files get combined using [grunt usemin](https://github.com/yeoman/grunt-usemin)
-                 and the `<script>` tag referencing requirements get replaced with
-                 two combined files, app.js & vendor.js
-/src/app:        All JavaScript source files & templates of the app are here.
-                 See table below for details
-/src/assets:     All static assets go here (Icons, Images, Stylesheets, ...)
-/src/data:       [GeoJson](http://geojson.org/) files for the map. The current quiz only
-                 supports world countrys, but we might add other data for new quiz modes
-                 in the future, like capitals, federal states, rivers & cities of countries
-/src/vendor:     All 3rd party dependencies go hear. Add / remove using [bower](http://bower.io/).
----
+<table>
+  <tr>
+    <th>/src/index.html</th>
+    <td>
+      Starting point of the app. During the build process,
+      the CSS files get combined using <a href="https://github.com/yeoman/grunt-usemin">grunt usemin</a>
+      and the <code>&lt;script&gt;</code> tag referencing requirements get replaced with
+      two combined files, app.js & vendor.js
+    </td>
+  </tr>
+  <tr>
+    <th>/src/app</th>
+    <td>
+      All JavaScript source files & templates of the app are here.
+      See table below for details
+    </td>
+  </tr>
+  <tr>
+    <th>/src/assets</th>
+    <td>
+      All static assets go here (Icons, Images, Stylesheets, ...)
+    </td>
+  </tr>
+  <tr>
+    <th>/src/data</th>
+    <td>
+      <a href="http://geojson.org/">GeoJson</a> files for the map. The current quiz only
+      supports world countrys, but we might add other data for new quiz modes
+      in the future, like capitals, federal states, rivers & cities of countries
+    </td>
+  </tr>
+  <tr>
+    <th>/src/vendor</th>
+    <td>
+      All 3rd party dependencies go hear. Add / remove using <a href="http://bower.io/">bower</a>.
+    </td>
+  </tr>
+</table>
 
 The `/src/app` files & folders en detail
 
----
-app.js:          Main app file controlling the app's initialization on startup
-                 and coordinates behavior accross modules
-config.js:       The [require.js](http://requirejs.org/) config file, loaded in `/src/index.html`.
-                 It makes all 3rd party vendor packages available via `require('modulename')`, by
-                 specifiying their paths and shimming their exported variables & functions.
-                 At the end, it opens `start.js`
-start.js:        Starts the app as defined in `app.js` & initializes the routing (not yet used).
-vendor.js:       Defines vendor modules to be bundled during build process. Not used in development
-collections:     The app is using 2 Collections: CountryList holds all Countries from `data/countries.js`
-                 that are used be render be the MapView. OptionList is a subset that is used by ControlsView,
-                 to render the buttons to guess what country is currently highlighted.
-controllers:     not used yet.
-entities:        Manages access to the data across the modules. Initializes the two collections
-                 only once and keeps them up to date when the app state changes.
-models:          Holds the Country Model, but has not custom behavior yet.
-routers:         not used yet.
-templates:       [Handlebars](http://handlebarsjs.com/) Templates. The Application template gets rendered
-                 in the `<body>` tag and holds the main structure of the application
-views:           Manages the interaction of the user with the DOM and renders the templates
----
+<table>
+  <tr>
+    <th>app.js</th>
+    <td>
+      Main app file controlling the app's initialization on startup
+      and coordinates behavior accross modules
+    </td>
+  </tr>
+  <tr>
+    <th>config.js</th>
+    <td>
+      The <a href="http://requirejs.org/">require.js</a> config file, loaded in <code>/src/index.html</code>.
+      It makes all 3rd party vendor packages available via <code>require('modulename')</code>, by
+      specifiying their paths and shimming their exported variables & functions.
+      At the end, it opens `start.js`
+    </td>
+  </tr>
+  <tr>
+    <th>start.js</th>
+    <td>
+      Starts the app as defined in <code>app.js</code> & initializes the routing (not yet used).
+    </td>
+  </tr>
+  <tr>
+    <th>vendor.js</th>
+    <td>
+      Defines vendor modules to be bundled during build process. Not used in development
+    </td>
+  </tr>
+  <tr>
+    <th>collections</th>
+    <td>
+      The app is using 2 Collections: CountryList holds all Countries from <code>data/countries.js</code>
+      that are used be render be the MapView. OptionList is a subset that is used by ControlsView,
+      to render the buttons to guess what country is currently highlighted.
+    </td>
+  </tr>
+  <tr>
+    <th>controllers</th>
+    <td>
+      not used yet.
+    </td>
+  </tr>
+  <tr>
+    <th>entities</th>
+    <td>
+      Manages access to the data across the modules. Initializes the two collections
+      only once and keeps them up to date when the app state changes.
+    </td>
+  </tr>
+  <tr>
+    <th>models</th>
+    <td>Holds the Country Model, but has not custom behavior yet.</td>
+  </tr>
+  <tr>
+    <th>routers</th>
+    <td>not used yet.</td>
+  </tr>
+  <tr>
+    <th>templates</th>
+    <td>
+      <a href="http://handlebarsjs.com/">Handlebars</a> Templates. The Application template gets rendered
+      in the <code>&lt;body&gt;</code> tag and holds the main structure of the application
+    </td>
+  </tr>
+  <tr>
+    <th>views</th>
+    <td>
+      Manages the interaction of the user with the DOM and renders the templates
+    </td>
+  </tr>
+</table>
 
 ### Ideas / next steps
 
@@ -108,12 +184,7 @@ views:           Manages the interaction of the user with the DOM and renders th
 * Make the algorithm on what country gets shown smarter: take number
   of wrong guesses into account etc.
 
+---
 
-## Changelog
-
-
-
-
-
-**© 2013 Gregor Martynus  **
+**© 2013 Gregor Martynus**  
 MIT Licensed
