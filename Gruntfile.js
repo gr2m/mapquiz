@@ -84,7 +84,7 @@ module.exports = function(grunt) {
       // right after the requirejs task, excluding the
       // files we actually want
       requirejs: {
-        src: ['build/*.js', '!build/{main,vendor}.js']
+        src: ['build/*.js', '!build/{start,vendor}.js']
       }
     },
 
@@ -124,11 +124,6 @@ module.exports = function(grunt) {
         options: {
           mainConfigFile: 'src/app/config.js',
 
-          paths: {
-            // WHY THE FUCK I NEED THIS?!
-            '../data/countries': '../data/countries'
-          },
-
           preserveLicenseComments: false, // true
           optimize: 'none', // uglify
           optimizeCss: 'none',
@@ -145,7 +140,7 @@ module.exports = function(grunt) {
               ]
             },
             {
-              name: 'main',
+              name: 'start',
               exclude: [
                 'vendor'
               ]
@@ -198,7 +193,7 @@ module.exports = function(grunt) {
           from: '<script data-main="app/config" src="vendor/requirejs/require.js"></script>',
           to: function() {
             var vendorFilename = grunt.filerev.summary['build/vendor.js'].substr(6);
-            var mainFilename = grunt.filerev.summary['build/main.js'].substr(6);
+            var mainFilename = grunt.filerev.summary['build/start.js'].substr(6);
 
             return '<script src="'+vendorFilename+'"></script><script src="'+mainFilename+'"></script>';
           }

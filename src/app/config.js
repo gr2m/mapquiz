@@ -1,5 +1,6 @@
 requirejs.config({
     paths: {
+      // vendor
       text:          '../vendor/requirejs-text/text',
       hbs:           '../vendor/backbone.marionette.hbs/backbone.marionette.hbs',
       jquery:        '../vendor/jquery/jquery',
@@ -10,7 +11,10 @@ requirejs.config({
       leaflet:       '../vendor/leaflet/leaflet-src',
       fittext:       '../vendor/fittext/fittext',
       mousetrap:     '../vendor/mousetrap/mousetrap',
-      fastclick:     '../vendor/fastclick/lib/fastclick'
+      fastclick:     '../vendor/fastclick/lib/fastclick',
+
+      // data
+      'data/countries': '../data/countries'
     },
 
     map: {
@@ -49,3 +53,6 @@ requirejs.config({
     }
   }
 );
+
+// start app
+require(['start']);

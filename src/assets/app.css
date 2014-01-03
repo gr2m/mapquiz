@@ -7,23 +7,22 @@ html, body {
 }
 body {
   font-family: helvetica, arial;
+  background-color: #49a8fd;
 }
-#map {
-  position: fixed;
+.leaflet-container {
+  position: fixed !important;
   top: 0;
   left: 0;
   right: 0;
   bottom: 0;
-  /*bottom: 140px;*/
-
-  background-color: #49a8fd;
   z-index: 1;
+  background: transparent;
 }
 .leaflet-map-pane {
 
 }
 
-#options {
+#controls {
   z-index: 2;
   position: fixed;
   bottom: 0;
@@ -34,7 +33,7 @@ body {
 }
 
 /* small screens: do only show 1st letter in big */
-#options b {
+#controls b {
   font-weight: bold;
   float: left;
   width: 25%;
@@ -44,7 +43,7 @@ body {
   text-align: center;
   color: #fff;
 }
-#options b:first-letter {
+#controls b:first-letter {
   font-size: 80px;
 }
 
@@ -60,11 +59,8 @@ body {
   text-align: center;
 }
 
-@media(min-width: 480px) {
-  #map {
-    bottom: 0;
-  }
-  #options b:first-child {
+/*@media(min-width: 480px) {
+  #controls b:first-child {
     border-radius: 5px 5px 0 0;
     padding: 4px 0;
   }
@@ -72,11 +68,11 @@ body {
     margin-top: -100px;
   }
 
-  #options {
+  #controls {
     background: transparent;
     height: auto;
   }
-  #options b {
+  #controls b {
     font-weight: normal;
     display: block;
     float: none;
@@ -94,22 +90,22 @@ body {
     padding: 2px 0 2px;
     border-top: 1px solid rgba(255,255,255,.4);
   }
-  #options b.active {
+  #controls b.active {
     background: #fff;
   }
-  #options b:first-letter {
+  #controls b:first-letter {
     font-size: 20px;
     line-height: 30px;
   }
-  #options b:hover {
+  #controls b:hover {
     background: #fff;
     cursor: pointer;
   }
 
-  html:not(.touch) #options b:first-letter {
+  html:not(.touch) #controls b:first-letter {
     text-decoration: underline;
   }
-}
+}*/
 
 .leaflet-control-attribution {
   display: none;

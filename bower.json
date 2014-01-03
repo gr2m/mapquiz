@@ -1,9 +1,4 @@
 {
-  "wtf": {
-    "wtf": {
-      "wtf": "wtf"
-    }
-  },
   "name": "janasmapquiz",
   "version": "0.0.1",
   "authors": [
@@ -22,20 +17,18 @@
     "tests"
   ],
   "dependencies": {
-    "jquery": "~2.0.3",
-    "leaflet": "https://raw.github.com/Leaflet/Leaflet/gh-pages/dist/leaflet.js",
+    "almond": "~0.2.7",
     "animate.css": "~3.0.0",
-    "mousetrap": "~1.4.6",
-    "modernizr": "~2.7.1",
-    "fittext": "*",
-    "lodash": "~2.4.1",
     "backbone": "~1.1.0",
     "backbone.marionette": "~1.4.1",
     "backbone.marionette.hbs": "~0.0.6",
+    "fittext": "*",
+    "jquery": "~2.0.3",
+    "leaflet": "https://raw.github.com/Leaflet/Leaflet/gh-pages/dist/leaflet.js",
+    "lodash": "~2.4.1",
+    "modernizr": "~2.7.1",
+    "mousetrap": "~1.4.6",
     "requirejs": "~2.1.9",
     "requirejs-text": "~2.0.10"
-  },
-  "devDependencies": {
-    "almond": "~0.2.7"
   }
 }
