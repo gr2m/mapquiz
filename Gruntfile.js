@@ -26,21 +26,43 @@ module.exports = function(grunt) {
 
     // run jshint whenever a *.js file changes
     watch: {
-      jshint: {
-        files: ['<%= jshint.files %>'],
-        tasks: ['jshint']
-      },
-      server: {
+      // jshint: {
+      //   files: ['<%= jshint.files %>'],
+      //   tasks: ['jshint']
+      // },
+      html: {
         options: {
           livereload: true
         },
         files: [
           'src/index.html',
-          'src/app/**/*.js',
-          'src/assets/**',
-          'src/data/*.json'
+          'src/app/templates/**/*.html'
         ],
-        tasks: ['jshint:server']
+        tasks: []
+      },
+      js: {
+        options: {
+          livereload: true
+        },
+        files: [
+          'src/app/**/*.js'
+        ],
+        tasks: []
+      },
+      css: {
+        options: {
+          livereload: true
+        },
+        files: [
+          '.tmp/style/**/*.css'
+        ],
+        tasks: []
+      },
+      sass: {
+        files: [
+          'src/style/**/*.scss'
+        ],
+        tasks: ['sass']
       }
     },
 
@@ -74,9 +96,8 @@ module.exports = function(grunt) {
     },
     // remove build folder before new build
     clean: {
-      build: {
-        src: ['build', '.tmp']
-      },
+      build: { src: ['build'] },
+      tmp: { src: ['.tmp'] },
 
       // requirejs copies over all files from src/app,
       // I coudn't figure out how to limit that. So to
@@ -84,7 +105,7 @@ module.exports = function(grunt) {
       // right after the requirejs task, excluding the
       // files we actually want
       requirejs: {
-        src: ['build/*.js', '!build/{start,vendor}.js']
+        src: ['build/**', '!build', '!build/{start,vendor}.js']
       }
     },
 
@@ -97,7 +118,7 @@ module.exports = function(grunt) {
           src: [
             'index.html',
             'data/*.json',
-            'assets/**'
+            'style/**/*.png'
           ],
           dest: 'build/'
         }]
@@ -119,6 +140,25 @@ module.exports = function(grunt) {
       html: 'build/index.html'
     },
 
+    // compile *.scss files into *.css
+    sass: {
+      build: {
+        options: {
+          style: 'expanded'
+        },
+        files: [{
+          expand: true,
+          cwd: 'src/',
+          src: [
+            'style/**/*.scss'
+          ],
+          dest: '.tmp/',
+          ext: '.css'
+        }]
+      }
+    },
+
+    //
     requirejs: {
       build: {
         options: {
@@ -175,7 +215,7 @@ module.exports = function(grunt) {
       },
       all: {
         dest: 'build/manifest.appcache',
-        cache: ['build/*', 'build/assets/*'],
+        cache: ['build/*', 'build/style/*'],
         network: '*',
         fallback: '/ /'
       }
@@ -231,7 +271,6 @@ module.exports = function(grunt) {
   grunt.loadNpmTasks('grunt-contrib-cssmin');
   grunt.loadNpmTasks('grunt-contrib-uglify');
   grunt.loadNpmTasks('grunt-contrib-requirejs');
-  // grunt.loadNpmTasks('grunt-requirejs');
 
   // https://github.com/yeoman/grunt-filerev
   grunt.loadNpmTasks('grunt-filerev');
@@ -242,11 +281,14 @@ module.exports = function(grunt) {
   // https://github.com/yoniholmes/grunt-text-replace
   grunt.loadNpmTasks('grunt-text-replace');
 
+  // https://github.com/vojtajina/grunt-bump
   grunt.loadNpmTasks('grunt-bump');
 
+  // https://github.com/gruntjs/grunt-contrib-sass
+  grunt.loadNpmTasks('grunt-contrib-sass');
 
   // Default task(s).
   grunt.registerTask('default', ['watch']);
-  grunt.registerTask('build', ['jshint:server', 'clean:build', 'requirejs', 'clean:requirejs', 'useminPrepare', 'copy', 'concat', 'cssmin', 'filerev', 'appcache', 'replace:build', 'usemin']);
-  grunt.registerTask('server', ['connect:server', 'watch:server']);
+  grunt.registerTask('build', ['jshint:server', 'clean', 'requirejs', 'clean:requirejs', 'useminPrepare', 'copy', 'sass', 'concat', 'cssmin', 'filerev', 'appcache', 'replace:build', 'usemin', 'clean:tmp']);
+  grunt.registerTask('server', ['sass', 'connect:server', 'watch']);
 };
