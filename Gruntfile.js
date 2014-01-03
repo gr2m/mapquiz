@@ -8,7 +8,6 @@ module.exports = function(grunt) {
   // Project configuration.
   grunt.initConfig({
 
-
     // load app meta info
     pkg: grunt.file.readJSON('package.json'),
 
@@ -26,10 +25,6 @@ module.exports = function(grunt) {
 
     // run jshint whenever a *.js file changes
     watch: {
-      // jshint: {
-      //   files: ['<%= jshint.files %>'],
-      //   tasks: ['jshint']
-      // },
       html: {
         options: {
           livereload: true
@@ -47,7 +42,7 @@ module.exports = function(grunt) {
         files: [
           'src/app/**/*.js'
         ],
-        tasks: []
+        tasks: ['jshint']
       },
       css: {
         options: {
@@ -78,7 +73,7 @@ module.exports = function(grunt) {
               // https://github.com/intesso/connect-livereload#grunt-example
               livereloadSnippet,
 
-              // load assets from .tmp/ folder first, fallback to src/
+              // load assets from tmp folder first, fallback to src
               mountFolder(connect, '.tmp'),
               mountFolder(connect, 'src')
             ];
@@ -97,7 +92,7 @@ module.exports = function(grunt) {
     // remove build folder before new build
     clean: {
       build: { src: ['build'] },
-      tmp: { src: ['.tmp'] },
+      tmp: { src: ['.tmp', '.sass-cache', '.grunt'] },
 
       // requirejs copies over all files from src/app,
       // I coudn't figure out how to limit that. So to
@@ -255,6 +250,16 @@ module.exports = function(grunt) {
         push: true,
         pushTo: 'origin'
       }
+    },
+
+    // deploy build/ folder to gh-pages branch
+    'gh-pages': {
+      options: {
+        base: 'build'
+      },
+      build: {
+        src: ['**/*']
+      }
     }
   });
 
@@ -286,6 +291,9 @@ module.exports = function(grunt) {
 
   // https://github.com/gruntjs/grunt-contrib-sass
   grunt.loadNpmTasks('grunt-contrib-sass');
+
+  // https://github.com/tschaub/grunt-gh-pages
+  grunt.loadNpmTasks('grunt-gh-pages');
 
   // Default task(s).
   grunt.registerTask('default', ['watch']);

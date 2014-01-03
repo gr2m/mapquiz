@@ -1,4 +1,4 @@
-.tmp
 build
+.grunt
+.sass-cache
 node_modules
-
