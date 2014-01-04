@@ -1,3 +1,0 @@
-# make Github Pages serve from /build folder
-# http://jekyllrb.com/docs/configuration/
-destination: ./build
