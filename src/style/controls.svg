@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<svg preserveAspectRatio="none" width="640px" height="260px" viewBox="0 0 640 260" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" xmlns:sketch="http://www.bohemiancoding.com/sketch/ns">
+    <title>controls</title>
+    <description>Created with Sketch (http://www.bohemiancoding.com/sketch)</description>
+    <defs></defs>
+    <g id="Page-1" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd" sketch:type="MSPage">
+        <g id="controls" sketch:type="MSArtboardGroup" fill-opacity="0.2" fill="#FFFFFF">
+            <path d="M640,4.00082581 C586.961918,4.04462923 535.13669,5.83036085 485,9.19747697 L485,159.936619 C533.80749,156.130589 585.8986,154.050967 640,154.000925 L640,4.00076663 Z" id="button-4" sketch:type="MSShapeGroup"></path>
+            <path d="M475,9.89160209 C422.949121,13.622233 372.769256,19.0612202 324.999979,26.0264568 L325,180.70315 C369.392408,172.141811 420.016576,165.340268 474.999998,160.744357 L475,9.89160209 Z" id="button-3" sketch:type="MSShapeGroup"></path>
+            <path d="M314.999972,27.5121473 C261.645594,35.5870235 211.389562,45.577185 165,57.2233901 L165,235.14939 C194.562598,214.567987 246.96158,196.507957 315,182.68286 L315,27.5121431 Z" id="button-2" sketch:type="MSShapeGroup"></path>
+            <path d="M155,59.7750718 C96.3798959,74.9771536 44.1773104,92.8583326 0,112.875991 L0,262 L140.488512,262 C143.201776,255.493393 148.09788,249.139677 155,242.980954 L155,59.7750718 Z" id="button-1" sketch:type="MSShapeGroup"></path>
+        </g>
+    </g>
+</svg>

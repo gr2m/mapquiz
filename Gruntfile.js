@@ -112,10 +112,17 @@ module.exports = function(grunt) {
           cwd: 'src/',
           src: [
             'index.html',
-            'data/*.json',
-            'style/**/*.png'
+            'style/**/*.{png,svg}'
           ],
           dest: 'build/'
+        }, {
+          expand: true,
+          cwd: 'src/',
+          src: [
+            'vendor/leaflet/leaflet.css',
+            'vendor/animate.css/animate.css'
+          ],
+          dest: '.tmp/'
         }]
       }
     },
@@ -139,13 +146,14 @@ module.exports = function(grunt) {
     sass: {
       build: {
         options: {
-          style: 'expanded'
+          style: 'expanded',
+          compass: true
         },
         files: [{
           expand: true,
           cwd: 'src/',
           src: [
-            'style/**/*.scss'
+            'style/app.scss'
           ],
           dest: '.tmp/',
           ext: '.css'
@@ -197,9 +205,7 @@ module.exports = function(grunt) {
         src: [
           // do not far-future manifest.appcache:
           // http://alistapart.com/article/application-cache-is-a-douchebag#section7
-          'build/**/*.js',
-          'build/**/*.css',
-          'build/**/*.png'
+          'build/**/*.{js,css,png,svg}'
         ]
       }
     },
@@ -216,21 +222,37 @@ module.exports = function(grunt) {
       }
     },
 
-    // dynamically add manifest="manifest.appcache" to <html> tag
     replace: {
-      build: {
+      html: {
         src: ['build/index.html'],
         overwrite: true,
         replacements: [{
+
+          // add manifest="manifest.appcache" to <html> tag
           from: /<html([^>]*)>/,
           to: '<html$1 manifest="manifest.appcache">'
         }, {
+
+          // replace requirejs script tag with tags for generated & bundled files
           from: '<script data-main="app/config" src="vendor/requirejs/require.js"></script>',
           to: function() {
             var vendorFilename = grunt.filerev.summary['build/vendor.js'].substr(6);
             var mainFilename = grunt.filerev.summary['build/start.js'].substr(6);
 
             return '<script src="'+vendorFilename+'"></script><script src="'+mainFilename+'"></script>';
+          }
+        }]
+      },
+      css: {
+        src: ['build/style/*.css'],
+        overwrite: true,
+        replacements: [{
+
+          // replace image references in CSS
+          from: /controls.svg/,
+          to: function() {
+            var newFilename = grunt.filerev.summary['build/style/controls.svg'].substr(12);
+            return newFilename;
           }
         }]
       }
@@ -297,6 +319,6 @@ module.exports = function(grunt) {
 
   // Default task(s).
   grunt.registerTask('default', ['watch']);
-  grunt.registerTask('build', ['jshint:server', 'clean', 'requirejs', 'clean:requirejs', 'useminPrepare', 'copy', 'sass', 'concat', 'cssmin', 'filerev', 'appcache', 'replace:build', 'usemin', 'clean:tmp']);
+  grunt.registerTask('build', ['jshint:server', 'clean', 'requirejs', 'clean:requirejs', 'useminPrepare', 'copy', 'sass', 'concat', 'cssmin', 'filerev', 'appcache', 'replace', 'usemin', 'clean:tmp']);
   grunt.registerTask('server', ['sass', 'connect:server', 'watch']);
 };

@@ -10,6 +10,7 @@ define([
 
   var ControlsView = Marionette.ItemView.extend({
     template: controlsTemplate,
+    tagName: 'ul',
 
     events: {
       'click [data-country-id]': 'selectOption'
@@ -43,7 +44,7 @@ define([
     },
 
     selectOption: function(event) {
-      var $button = $(event.target);
+      var $button = $(event.currentTarget);
       var selectedCountryId = $button.data('countryId');
       var country = this.collection.get(selectedCountryId);
 
