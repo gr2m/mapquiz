@@ -1,82 +1,31 @@
 @import "compass";
 
-#controls > ul {
+#controls svg {
   z-index: 2;
   position: fixed;
   bottom: 0;
   left: 0;
   right: 0;
   height: 130px;
+  width: 100%;
+  pointer-events: none;
 
-  // top left corner of controls is rounded.
-  // Make map behind it clickable
-  overflow: hidden;
-  border-top-left-radius: 100% 80px;
-
-
-  list-style: none;
-  background-image: url(controls.svg);
-  background-size: 100% 100%;
-  background-repeat: no-repeat;
-
-
-  li {
-    position: absolute;
-    display: block;
-    bottom: 0;
-    width: 25%;
-
-    font-size: 50px;
-    font-weight: bold;
-    text-align: center;
-    color: #fff;
+  g {
+    fill: #fff;
     cursor: pointer;
-    overflow: hidden;
+    pointer-events: all;
 
-    // arrange buttons so that the are
-    // easier to reach for thumb
-    &:nth-child(1) {
-      left: 0;
-      height: 90px;
-      line-height: 90px;
+    path {
+      fill-opacity:0.2;
     }
-    &:nth-child(2) {
-      left: 25%;
-      bottom: 30px;
-      height: 80px;
-      line-height: 80px;
-    }
-    &:nth-child(3) {
-      left: 50%;
-      bottom: 45px;
-      line-height: 75px;
-      height: 75px;
-    }
-    &:nth-child(4) {
-      left: 75%;
-      bottom: 55px;
-      line-height: 70px;
-      height: 70px;
-    }
-
-    span, b {
-      display: block;
-      position: absolute;
-      top: 0;
-      left: 0;
-      right: 0;
-      bottom: 0;
+    &:hover path {
+      fill-opacity:0.5;
     }
   }
 
-  // uncomment to visualize clickable areas
-  //
-  //     box-shadow: 0 0 0 1px #fff;
-  //     background: rgba(255,255,0,.3);
-  //     &:hover {
-  //       background: rgba(255,255,255,.3);
-  //     }
-  //     li {
-  //       box-shadow: 0 0 0 1px #fff;
-  //     }
+
+
+  text {
+    text-transform: uppercase;
+  }
 }

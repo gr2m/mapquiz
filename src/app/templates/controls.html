@@ -1,7 +1,28 @@
-{{#each items}}
-  <li>
-    <b accesskey="{{letter}}" data-country-id="{{id}}">
-      <span>{{letter}}</span>
-    </b>
-  </li>
-{{/each}}
+<svg preserveAspectRatio="none" viewBox="0 0 640 260" xmlns="http://www.w3.org/2000/svg">
+
+  <g accesskey="{{items.0.letter}}" data-country-id="{{items.0.id}}">
+    <path d="M-0.0078125,112.879531 C35.3296211,96.8668604 75.8022281,82.2212329 120.587093,69.2203829 L169.038029,232.445019 C155.511809,241.169334 146.122112,250.370648 141.435514,259.914063 L-0.0078125,259.914062 L-0.0078125,112.879531" id="Path"></path>
+
+    <text transform="rotate(-23 61.957 185)" font-family="Helvetica" font-size="100" font-weight="bold">
+      <tspan x="25.849" y="222">{{items.0.letter}}</tspan>
+    </text>
+  </g>
+  <g accesskey="{{items.1.letter}}" data-country-id="{{items.1.id}}">
+    <path d="M310.447484,28.206942 C245.255697,38.2397391 184.753352,51.1399484 130.355697,66.4299233 L130.355697,66.4299231 L175.498414,228.495793 C209.196361,208.93221 263.971517,191.957719 333.097932,179.173739 L310.447484,28.206942 L310.447484,28.206942" id="Path"></path>
+    <text transform="rotate(-13 238.5 124)" font-family="Helvetica" font-size="100" font-weight="bold">
+      <tspan x="202.392" y="161">{{items.1.letter}}</tspan>
+    </text>
+  </g>
+  <g accesskey="{{items.2.letter}}" data-country-id="{{items.2.id}}">
+    <path d="M480.978275,9.47121003 C425.094715,13.3254706 371.332458,19.1461944 320.35382,26.7098502 L320.35382,26.7098502 L340.425252,177.843934 C385.909988,169.743912 437.333221,163.430524 492.859545,159.340773 L480.978275,9.47121002 L480.978275,9.47121003" id="Path"></path>
+    <text transform="rotate(-6 409.5 94)" font-family="Helvetica" font-size="100" font-weight="bold">
+      <tspan x="373.392" y="131">{{items.2.letter}}</tspan>
+    </text>
+  </g>
+  <g accesskey="{{items.3.letter}}" data-country-id="{{items.3.id}}">
+    <path d="M640,4.00082581 C589.125196,4.04284261 539.366325,5.68758855 491.143208,8.79337401 L491.143208,8.79337401 L500.488352,158.794694 C544.773621,155.716072 591.581748,154.04571 640,154.000925 L640,4.00082572 L640,4.00082581" id="Path"></path>
+    <text transform="rotate(-2 576.043 79)" font-family="Helvetica" font-size="100" font-weight="bold">
+      <tspan x="539.935" y="116">{{items.3.letter}}</tspan>
+    </text>
+  </g>
+</svg>

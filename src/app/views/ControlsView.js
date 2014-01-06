@@ -10,7 +10,6 @@ define([
 
   var ControlsView = Marionette.ItemView.extend({
     template: controlsTemplate,
-    tagName: 'ul',
 
     events: {
       'click [data-country-id]': 'selectOption'

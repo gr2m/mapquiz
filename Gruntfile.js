@@ -118,7 +118,7 @@ module.exports = function(grunt) {
           cwd: 'src/',
           src: [
             'index.html',
-            'style/**/*.{png,svg}'
+            'style/**/*.png'
           ],
           dest: 'build/'
         }, {
@@ -211,7 +211,7 @@ module.exports = function(grunt) {
         src: [
           // do not far-future manifest.appcache:
           // http://alistapart.com/article/application-cache-is-a-douchebag#section7
-          'build/**/*.{js,css,png,svg}'
+          'build/**/*.{js,css,png}'
         ]
       }
     },
@@ -246,19 +246,6 @@ module.exports = function(grunt) {
             var mainFilename = grunt.filerev.summary['build/start.js'].substr(6);
 
             return '<script src="'+vendorFilename+'"></script><script src="'+mainFilename+'"></script>';
-          }
-        }]
-      },
-      css: {
-        src: ['build/style/*.css'],
-        overwrite: true,
-        replacements: [{
-
-          // replace image references in CSS
-          from: /controls.svg/,
-          to: function() {
-            var newFilename = grunt.filerev.summary['build/style/controls.svg'].substr(12);
-            return newFilename;
           }
         }]
       }
