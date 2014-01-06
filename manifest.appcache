@@ -1,11 +1,12 @@
 CACHE MANIFEST
-# rev 1 - 2014-01-03T22:50:16.964Z
+# rev 1 - 2014-01-05T13:52:23.630Z
 
 CACHE:
-app.68a5abc4.css
 index.html
-start.796f2fbf.js
+start.4ad6e776.js
 vendor.afbcb036.js
+style/app.0dc0fe31.css
+style/controls.908275f3.svg
 style/startup.e228c244.png
 
 NETWORK:
