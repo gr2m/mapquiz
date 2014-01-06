@@ -96,30 +96,34 @@ define('hbs!templates/controls', ['handlebars'], function(Handlebars){
 return Handlebars.template(function (Handlebars,depth0,helpers,partials,data) {
   this.compilerInfo = [4,'>= 1.0.0'];
 helpers = this.merge(helpers, Handlebars.helpers); data = data || {};
-  var buffer = "", stack1, functionType="function", escapeExpression=this.escapeExpression, self=this;
+  var buffer = "", stack1, functionType="function", escapeExpression=this.escapeExpression;
 
-function program1(depth0,data) {
-  
-  var buffer = "", stack1;
-  buffer += "\n  <li>\n    <b accesskey=\"";
-  if (stack1 = helpers.letter) { stack1 = stack1.call(depth0, {hash:{},data:data}); }
-  else { stack1 = depth0.letter; stack1 = typeof stack1 === functionType ? stack1.apply(depth0) : stack1; }
-  buffer += escapeExpression(stack1)
-    + "\" data-country-id=\"";
-  if (stack1 = helpers.id) { stack1 = stack1.call(depth0, {hash:{},data:data}); }
-  else { stack1 = depth0.id; stack1 = typeof stack1 === functionType ? stack1.apply(depth0) : stack1; }
-  buffer += escapeExpression(stack1)
-    + "\">\n      <span>";
-  if (stack1 = helpers.letter) { stack1 = stack1.call(depth0, {hash:{},data:data}); }
-  else { stack1 = depth0.letter; stack1 = typeof stack1 === functionType ? stack1.apply(depth0) : stack1; }
-  buffer += escapeExpression(stack1)
-    + "</span>\n    </b>\n  </li>\n";
-  return buffer;
-  }
 
-  stack1 = helpers.each.call(depth0, depth0.items, {hash:{},inverse:self.noop,fn:self.program(1, program1, data),data:data});
-  if(stack1 || stack1 === 0) { buffer += stack1; }
-  buffer += "\n";
+  buffer += "<svg preserveAspectRatio=\"none\" viewBox=\"0 0 640 260\" xmlns=\"http://www.w3.org/2000/svg\">\n\n  <g accesskey=\""
+    + escapeExpression(((stack1 = ((stack1 = ((stack1 = depth0.items),stack1 == null || stack1 === false ? stack1 : stack1[0])),stack1 == null || stack1 === false ? stack1 : stack1.letter)),typeof stack1 === functionType ? stack1.apply(depth0) : stack1))
+    + "\" data-country-id=\""
+    + escapeExpression(((stack1 = ((stack1 = ((stack1 = depth0.items),stack1 == null || stack1 === false ? stack1 : stack1[0])),stack1 == null || stack1 === false ? stack1 : stack1.id)),typeof stack1 === functionType ? stack1.apply(depth0) : stack1))
+    + "\">\n    <path d=\"M-0.0078125,112.879531 C35.3296211,96.8668604 75.8022281,82.2212329 120.587093,69.2203829 L169.038029,232.445019 C155.511809,241.169334 146.122112,250.370648 141.435514,259.914063 L-0.0078125,259.914062 L-0.0078125,112.879531\" id=\"Path\"></path>\n\n    <text transform=\"rotate(-23 61.957 185)\" font-family=\"Helvetica\" font-size=\"100\" font-weight=\"bold\">\n      <tspan x=\"25.849\" y=\"222\">"
+    + escapeExpression(((stack1 = ((stack1 = ((stack1 = depth0.items),stack1 == null || stack1 === false ? stack1 : stack1[0])),stack1 == null || stack1 === false ? stack1 : stack1.letter)),typeof stack1 === functionType ? stack1.apply(depth0) : stack1))
+    + "</tspan>\n    </text>\n  </g>\n  <g accesskey=\""
+    + escapeExpression(((stack1 = ((stack1 = ((stack1 = depth0.items),stack1 == null || stack1 === false ? stack1 : stack1[1])),stack1 == null || stack1 === false ? stack1 : stack1.letter)),typeof stack1 === functionType ? stack1.apply(depth0) : stack1))
+    + "\" data-country-id=\""
+    + escapeExpression(((stack1 = ((stack1 = ((stack1 = depth0.items),stack1 == null || stack1 === false ? stack1 : stack1[1])),stack1 == null || stack1 === false ? stack1 : stack1.id)),typeof stack1 === functionType ? stack1.apply(depth0) : stack1))
+    + "\">\n    <path d=\"M310.447484,28.206942 C245.255697,38.2397391 184.753352,51.1399484 130.355697,66.4299233 L130.355697,66.4299231 L175.498414,228.495793 C209.196361,208.93221 263.971517,191.957719 333.097932,179.173739 L310.447484,28.206942 L310.447484,28.206942\" id=\"Path\"></path>\n    <text transform=\"rotate(-13 238.5 124)\" font-family=\"Helvetica\" font-size=\"100\" font-weight=\"bold\">\n      <tspan x=\"202.392\" y=\"161\">"
+    + escapeExpression(((stack1 = ((stack1 = ((stack1 = depth0.items),stack1 == null || stack1 === false ? stack1 : stack1[1])),stack1 == null || stack1 === false ? stack1 : stack1.letter)),typeof stack1 === functionType ? stack1.apply(depth0) : stack1))
+    + "</tspan>\n    </text>\n  </g>\n  <g accesskey=\""
+    + escapeExpression(((stack1 = ((stack1 = ((stack1 = depth0.items),stack1 == null || stack1 === false ? stack1 : stack1[2])),stack1 == null || stack1 === false ? stack1 : stack1.letter)),typeof stack1 === functionType ? stack1.apply(depth0) : stack1))
+    + "\" data-country-id=\""
+    + escapeExpression(((stack1 = ((stack1 = ((stack1 = depth0.items),stack1 == null || stack1 === false ? stack1 : stack1[2])),stack1 == null || stack1 === false ? stack1 : stack1.id)),typeof stack1 === functionType ? stack1.apply(depth0) : stack1))
+    + "\">\n    <path d=\"M480.978275,9.47121003 C425.094715,13.3254706 371.332458,19.1461944 320.35382,26.7098502 L320.35382,26.7098502 L340.425252,177.843934 C385.909988,169.743912 437.333221,163.430524 492.859545,159.340773 L480.978275,9.47121002 L480.978275,9.47121003\" id=\"Path\"></path>\n    <text transform=\"rotate(-6 409.5 94)\" font-family=\"Helvetica\" font-size=\"100\" font-weight=\"bold\">\n      <tspan x=\"373.392\" y=\"131\">"
+    + escapeExpression(((stack1 = ((stack1 = ((stack1 = depth0.items),stack1 == null || stack1 === false ? stack1 : stack1[2])),stack1 == null || stack1 === false ? stack1 : stack1.letter)),typeof stack1 === functionType ? stack1.apply(depth0) : stack1))
+    + "</tspan>\n    </text>\n  </g>\n  <g accesskey=\""
+    + escapeExpression(((stack1 = ((stack1 = ((stack1 = depth0.items),stack1 == null || stack1 === false ? stack1 : stack1[3])),stack1 == null || stack1 === false ? stack1 : stack1.letter)),typeof stack1 === functionType ? stack1.apply(depth0) : stack1))
+    + "\" data-country-id=\""
+    + escapeExpression(((stack1 = ((stack1 = ((stack1 = depth0.items),stack1 == null || stack1 === false ? stack1 : stack1[3])),stack1 == null || stack1 === false ? stack1 : stack1.id)),typeof stack1 === functionType ? stack1.apply(depth0) : stack1))
+    + "\">\n    <path d=\"M640,4.00082581 C589.125196,4.04284261 539.366325,5.68758855 491.143208,8.79337401 L491.143208,8.79337401 L500.488352,158.794694 C544.773621,155.716072 591.581748,154.04571 640,154.000925 L640,4.00082572 L640,4.00082581\" id=\"Path\"></path>\n    <text transform=\"rotate(-2 576.043 79)\" font-family=\"Helvetica\" font-size=\"100\" font-weight=\"bold\">\n      <tspan x=\"539.935\" y=\"116\">"
+    + escapeExpression(((stack1 = ((stack1 = ((stack1 = depth0.items),stack1 == null || stack1 === false ? stack1 : stack1[3])),stack1 == null || stack1 === false ? stack1 : stack1.letter)),typeof stack1 === functionType ? stack1.apply(depth0) : stack1))
+    + "</tspan>\n    </text>\n  </g>\n</svg>\n";
   return buffer;
   });
 });
@@ -136,7 +140,6 @@ define('views/ControlsView',[
 
   var ControlsView = Marionette.ItemView.extend({
     template: controlsTemplate,
-    tagName: 'ul',
 
     events: {
       'click [data-country-id]': 'selectOption'
