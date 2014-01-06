@@ -21,12 +21,12 @@ define([
 
     renderControls: function(optionList) {
       var controls = new ControlsView({collection: optionList});
-      this.listenTo(controls, 'next', this.next);
+      this.listenTo(controls, 'answer:correct', this.onAnswerCorrect);
       this.controls.show(controls);
     },
 
-    next: function() {
-      this.trigger('next');
+    onAnswerCorrect: function(answer) {
+      this.trigger('answer:correct', answer);
     }
   });
 });

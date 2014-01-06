@@ -65,6 +65,7 @@ module.exports = function(grunt) {
       server: {
         options: {
           port: 9000,
+          hostname: '*',
           base: 'src/',
           open: true,
           livereload: true,
@@ -83,6 +84,7 @@ module.exports = function(grunt) {
       build: {
         options: {
           port: 3000,
+          hostname: '*',
           base: 'build/',
           open: true,
           keepalive: true

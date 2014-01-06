@@ -1,8 +1,9 @@
 define([
   'marionette',
   'views/ApplicationView',
+  'views/AnswerView',
   'fastclick',
-], function (Marionette, ApplicationView, FastClick) {
+], function (Marionette, ApplicationView, AnswerView, FastClick) {
   'use strict';
 
   var app = new Marionette.Application();
@@ -58,7 +59,12 @@ define([
     appView.map.currentView.highlightCountry(country);
   });
 
-  appView.on('next', app.next);
+  //
+  appView.on('answer:correct', function(country) {
+    var answer = new AnswerView({model: country});
+    answer.render();
+    answer.on('remove', app.next);
+  });
 
   // return app instance
   return app;

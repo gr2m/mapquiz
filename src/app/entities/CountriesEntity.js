@@ -21,7 +21,11 @@ define([
     //       "coordinates":[ /*...*/ ]
     //   }}
     // }
-    return _.extend(feature.properties, {id: feature.id});
+    var firstLetter = feature.properties.name.charAt(0).toLowerCase();
+    return _.extend(feature.properties, {
+      id: feature.id,
+      letter: firstLetter
+    });
   }
 
   // initialize the countries collection to be used accross modules

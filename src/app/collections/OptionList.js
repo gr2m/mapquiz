@@ -16,71 +16,40 @@ define([
     // returns four country names as options to
     // guess the right from, including the passed
     // country which is the correct answer
-    reloadForCountry: function(countryList, country) {
-      var correctOption = parseCountry(country);
-      var options = getFromCountryList(countryList, correctOption, numOptions);
-      this.reset( options );
+    reloadForCountry: function(countryList, wantedCountry) {
+      wantedCountry.set('isCorrect', true);
+      var models = getFromCountryList(countryList, wantedCountry, numOptions);
+      this.reset( models );
 
       // return sorted options
       return this;
-    }
-  }, {
-    // class Methods
-
-    // map country models by first letter. That
-    // will assure that only one country is present
-    // per first letter.
-    fromCountryList: function(countryList) {
-      var models = countryList.map( function(country) {
-        var name = country.get('name');
-        return {
-          id: name.charAt(0).toLowerCase(),
-          name: name
-        };
-      });
-
-      return new this(models);
     }
   });
 
   // private
 
-  // turn country model into Option model
-  var parseCountry = function(country) {
-    var name = country.get('name');
-    return {
-      id: name.charAt(0).toLowerCase(),
-      name: name
-    };
-  };
-
-  // get options from countryList, mapped by first letter,
-  // but without the letter for wantedCountry
+  // get options from countryList
   var getFromCountryList = function(countryList, wantedCountry, length) {
+    var country;
+    var models;
     var countriesByLetter = {};
-    countriesByLetter[wantedCountry.id] = _.extend(wantedCountry, {isCorrect: true});
+    countriesByLetter[wantedCountry.get('letter')] = wantedCountry;
 
-    return countryList.chain()
-      .map( parseCountry )
-      .reduce(function (countriesByLetter, country) {
+    for (var i = 0; i < countryList.length; i++) {
+      country = countryList[i];
 
-        // do only allow one country per letter
-        if (countriesByLetter[country.id]) {
-          return countriesByLetter;
-        }
+      // do only allow one country per letter
+      if (countriesByLetter[country.get('letter')]) {
+        continue;
+      }
 
-        // do only allow for max. 4 options
-        if (_.values(countriesByLetter).length === length) {
-          return countriesByLetter;
-        }
+      countriesByLetter[country.get('letter')] = country;
 
-        //
-        countriesByLetter[country.id] = country;
-
-        return countriesByLetter;
-      }, countriesByLetter)
-      .values()
-      .value();
+      models = _.values(countriesByLetter);
+      if (models.length === length) {
+        return models;
+      }
+    }
   };
 
   return OptionList;

@@ -30,7 +30,7 @@ define([
       // add keyboard shortcuts to select options by first letter
       _.each(allLetters, function(letter) {
         Mousetrap.bind( letter , function() {
-          $el.find('[data-country-id="'+letter+'"]').eq(0).trigger('click');
+          $el.find('[accesskey="'+letter+'"]').eq(0).trigger('click');
         });
       });
 
@@ -49,12 +49,7 @@ define([
       var country = this.collection.get(selectedCountryId);
 
       if (country.get('isCorrect')) {
-        var $answer = $('<div id="answer">'+country.get('name')+'</div>');
-        $answer.appendTo(document.body);
-        fitText($answer[0], 1.2);
-        $answer.addClass('animated bounceOut');
-        setTimeout( $.proxy( $answer.remove, $answer), 1000);
-        setTimeout( $.proxy( this.trigger, this), 700, 'next');
+        this.trigger('answer:correct', country);
         return;
       }
 

@@ -170,8 +170,6 @@ The `/src/app` files & folders en detail
 
 ### Ideas / next steps
 
-* Add a custom view that renders the Answer if a country has been
-  guessed correctly. The logic currently lives in ControlsView
 * Add a tip feature: Show a `?` button next to the four letters.
   When clicked, show the First letter of the country on top of the
   screen + underlines for the remaining letters. The four letters

@@ -19,6 +19,6 @@ define([
   app.vent.on('next', function(country) {
     var countryList = app.request('countries');
 
-    optionList.reloadForCountry(countryList, country);
+    optionList.reloadForCountry(countryList.shuffle(), country);
   });
 });
