@@ -91,10 +91,14 @@ module.exports = function(grunt) {
         }
       }
     },
+
     // remove build folder before new build
     clean: {
       build: { src: ['build'] },
       tmp: { src: ['.tmp', '.sass-cache', '.grunt'] },
+
+      // remove CNAME file added with create-file:cname
+      deploy: { src: ['build/CNAME'] },
 
       // requirejs copies over all files from src/app,
       // I coudn't figure out how to limit that. So to
@@ -276,6 +280,17 @@ module.exports = function(grunt) {
       }
     },
 
+
+    // add CNAME file
+    'file-creator': {
+      'cname': {
+        'build/CNAME': function(fs, fd, done) {
+          fs.writeSync(fd, 'quiz.janagallus.com');
+          done();
+        }
+      }
+    },
+
     // deploy build/ folder to gh-pages branch
     'gh-pages': {
       options: {
@@ -319,8 +334,13 @@ module.exports = function(grunt) {
   // https://github.com/tschaub/grunt-gh-pages
   grunt.loadNpmTasks('grunt-gh-pages');
 
+  // https://github.com/travis-hilterbrand/grunt-file-creator
+  // to add CNAME file before deploying to githup pages
+  grunt.loadNpmTasks('grunt-file-creator');
+
   // Default task(s).
   grunt.registerTask('default', ['watch']);
   grunt.registerTask('build', ['jshint:server', 'clean', 'requirejs', 'clean:requirejs', 'useminPrepare', 'copy', 'sass', 'concat', 'cssmin', 'filerev', 'appcache', 'replace', 'usemin', 'clean:tmp']);
   grunt.registerTask('server', ['sass', 'connect:server', 'watch']);
+  grunt.registerTask('deploy', ['build', 'file-creator:cname','gh-pages', 'clean:tmp', 'clean']);
 };
