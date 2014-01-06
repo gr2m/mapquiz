@@ -102,16 +102,16 @@ function program1(depth0,data) {
   
   var buffer = "", stack1;
   buffer += "\n  <li>\n    <b accesskey=\"";
-  if (stack1 = helpers.id) { stack1 = stack1.call(depth0, {hash:{},data:data}); }
-  else { stack1 = depth0.id; stack1 = typeof stack1 === functionType ? stack1.apply(depth0) : stack1; }
+  if (stack1 = helpers.letter) { stack1 = stack1.call(depth0, {hash:{},data:data}); }
+  else { stack1 = depth0.letter; stack1 = typeof stack1 === functionType ? stack1.apply(depth0) : stack1; }
   buffer += escapeExpression(stack1)
     + "\" data-country-id=\"";
   if (stack1 = helpers.id) { stack1 = stack1.call(depth0, {hash:{},data:data}); }
   else { stack1 = depth0.id; stack1 = typeof stack1 === functionType ? stack1.apply(depth0) : stack1; }
   buffer += escapeExpression(stack1)
     + "\">\n      <span>";
-  if (stack1 = helpers.id) { stack1 = stack1.call(depth0, {hash:{},data:data}); }
-  else { stack1 = depth0.id; stack1 = typeof stack1 === functionType ? stack1.apply(depth0) : stack1; }
+  if (stack1 = helpers.letter) { stack1 = stack1.call(depth0, {hash:{},data:data}); }
+  else { stack1 = depth0.letter; stack1 = typeof stack1 === functionType ? stack1.apply(depth0) : stack1; }
   buffer += escapeExpression(stack1)
     + "</span>\n    </b>\n  </li>\n";
   return buffer;
@@ -156,7 +156,7 @@ define('views/ControlsView',[
       // add keyboard shortcuts to select options by first letter
       _.each(allLetters, function(letter) {
         Mousetrap.bind( letter , function() {
-          $el.find('[data-country-id="'+letter+'"]').eq(0).trigger('click');
+          $el.find('[accesskey="'+letter+'"]').eq(0).trigger('click');
         });
       });
 
@@ -175,12 +175,7 @@ define('views/ControlsView',[
       var country = this.collection.get(selectedCountryId);
 
       if (country.get('isCorrect')) {
-        var $answer = $('<div id="answer">'+country.get('name')+'</div>');
-        $answer.appendTo(document.body);
-        fitText($answer[0], 1.2);
-        $answer.addClass('animated bounceOut');
-        setTimeout( $.proxy( $answer.remove, $answer), 1000);
-        setTimeout( $.proxy( this.trigger, this), 700, 'next');
+        this.trigger('answer:correct', country);
         return;
       }
 
@@ -227,21 +222,65 @@ define('views/ApplicationView',[
 
     renderControls: function(optionList) {
       var controls = new ControlsView({collection: optionList});
-      this.listenTo(controls, 'next', this.next);
+      this.listenTo(controls, 'answer:correct', this.onAnswerCorrect);
       this.controls.show(controls);
     },
 
-    next: function() {
-      this.trigger('next');
+    onAnswerCorrect: function(answer) {
+      this.trigger('answer:correct', answer);
     }
   });
+});
+
+define('hbs!templates/answer', ['handlebars'], function(Handlebars){ 
+return Handlebars.template(function (Handlebars,depth0,helpers,partials,data) {
+  this.compilerInfo = [4,'>= 1.0.0'];
+helpers = this.merge(helpers, Handlebars.helpers); data = data || {};
+  var buffer = "", stack1, functionType="function", escapeExpression=this.escapeExpression;
+
+
+  buffer += "<div id=\"answer\" class=\"animated bounceOut\">\n  ";
+  if (stack1 = helpers.name) { stack1 = stack1.call(depth0, {hash:{},data:data}); }
+  else { stack1 = depth0.name; stack1 = typeof stack1 === functionType ? stack1.apply(depth0) : stack1; }
+  buffer += escapeExpression(stack1)
+    + "\n</div>\n";
+  return buffer;
+  });
+});
+
+define('views/AnswerView',[
+  'marionette',
+  'hbs!templates/answer',
+  'lodash',
+  'fittext'
+], function (Marionette, answerTemplate, _, fitText) {
+  
+
+  var AnswerView = Marionette.ItemView.extend({
+    template: answerTemplate,
+    onRender: function() {
+      var that = this;
+
+      this.$el.appendTo(document.body);
+      fitText(this.el, 1.2);
+
+      // remove when animation done
+      setTimeout( function() {
+        that.remove();
+        that.trigger('remove');
+      }, 1000);
+    }
+  });
+
+  return AnswerView;
 });
 
 define('app',[
   'marionette',
   'views/ApplicationView',
+  'views/AnswerView',
   'fastclick',
-], function (Marionette, ApplicationView, FastClick) {
+], function (Marionette, ApplicationView, AnswerView, FastClick) {
   
 
   var app = new Marionette.Application();
@@ -297,7 +336,12 @@ define('app',[
     appView.map.currentView.highlightCountry(country);
   });
 
-  appView.on('next', app.next);
+  //
+  appView.on('answer:correct', function(country) {
+    var answer = new AnswerView({model: country});
+    answer.render();
+    answer.on('remove', app.next);
+  });
 
   // return app instance
   return app;
@@ -557,71 +601,40 @@ define('collections/OptionList',[
     // returns four country names as options to
     // guess the right from, including the passed
     // country which is the correct answer
-    reloadForCountry: function(countryList, country) {
-      var correctOption = parseCountry(country);
-      var options = getFromCountryList(countryList, correctOption, numOptions);
-      this.reset( options );
+    reloadForCountry: function(countryList, wantedCountry) {
+      wantedCountry.set('isCorrect', true);
+      var models = getFromCountryList(countryList, wantedCountry, numOptions);
+      this.reset( models );
 
       // return sorted options
       return this;
-    }
-  }, {
-    // class Methods
-
-    // map country models by first letter. That
-    // will assure that only one country is present
-    // per first letter.
-    fromCountryList: function(countryList) {
-      var models = countryList.map( function(country) {
-        var name = country.get('name');
-        return {
-          id: name.charAt(0).toLowerCase(),
-          name: name
-        };
-      });
-
-      return new this(models);
     }
   });
 
   // private
 
-  // turn country model into Option model
-  var parseCountry = function(country) {
-    var name = country.get('name');
-    return {
-      id: name.charAt(0).toLowerCase(),
-      name: name
-    };
-  };
-
-  // get options from countryList, mapped by first letter,
-  // but without the letter for wantedCountry
+  // get options from countryList
   var getFromCountryList = function(countryList, wantedCountry, length) {
+    var country;
+    var models;
     var countriesByLetter = {};
-    countriesByLetter[wantedCountry.id] = _.extend(wantedCountry, {isCorrect: true});
+    countriesByLetter[wantedCountry.get('letter')] = wantedCountry;
 
-    return countryList.chain()
-      .map( parseCountry )
-      .reduce(function (countriesByLetter, country) {
+    for (var i = 0; i < countryList.length; i++) {
+      country = countryList[i];
 
-        // do only allow one country per letter
-        if (countriesByLetter[country.id]) {
-          return countriesByLetter;
-        }
+      // do only allow one country per letter
+      if (countriesByLetter[country.get('letter')]) {
+        continue;
+      }
 
-        // do only allow for max. 4 options
-        if (_.values(countriesByLetter).length === length) {
-          return countriesByLetter;
-        }
+      countriesByLetter[country.get('letter')] = country;
 
-        //
-        countriesByLetter[country.id] = country;
-
-        return countriesByLetter;
-      }, countriesByLetter)
-      .values()
-      .value();
+      models = _.values(countriesByLetter);
+      if (models.length === length) {
+        return models;
+      }
+    }
   };
 
   return OptionList;
@@ -650,7 +663,11 @@ define('entities/CountriesEntity',[
     //       "coordinates":[ /*...*/ ]
     //   }}
     // }
-    return _.extend(feature.properties, {id: feature.id});
+    var firstLetter = feature.properties.name.charAt(0).toLowerCase();
+    return _.extend(feature.properties, {
+      id: feature.id,
+      letter: firstLetter
+    });
   }
 
   // initialize the countries collection to be used accross modules
@@ -693,7 +710,7 @@ define('entities/OptionsEntity',[
   app.vent.on('next', function(country) {
     var countryList = app.request('countries');
 
-    optionList.reloadForCountry(countryList, country);
+    optionList.reloadForCountry(countryList.shuffle(), country);
   });
 });
 
