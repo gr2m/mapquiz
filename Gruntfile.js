@@ -204,6 +204,15 @@ module.exports = function(grunt) {
       }
     },
 
+    svgmin: {
+      options: {
+        plugins: [
+          { removeViewBox: false },
+          { removeUselessStrokeAndFill: false }
+        ]
+      }
+    },
+
     // Static asset revisioning through file content hash
     // https://github.com/yeoman/grunt-filerev
     filerev: {
@@ -255,7 +264,11 @@ module.exports = function(grunt) {
             return '<script src="'+vendorFilename+'"></script><script src="'+mainFilename+'"></script>';
           }
         }]
-      }
+      },
+
+      // turn the SVG file exported from assets/controls/controls.sketch
+      // and turn it into src/app/templates/controls.html
+      svg: require('./assets/controls/grunt-replace-config')
     },
 
     // https://github.com/vojtajina/grunt-bump
@@ -301,7 +314,7 @@ module.exports = function(grunt) {
 
   // Default task(s).
   grunt.registerTask('default', ['watch']);
-  grunt.registerTask('build', ['jshint:server', 'clean', 'requirejs', 'clean:requirejs', 'useminPrepare', 'copy', 'sass', 'concat', 'cssmin', 'filerev', 'appcache', 'replace', 'usemin', 'clean:tmp']);
+  grunt.registerTask('build', ['jshint:server', 'clean', 'requirejs', 'clean:requirejs', 'useminPrepare', 'copy', 'sass', 'concat', 'cssmin', 'filerev', 'appcache', 'replace:html', 'usemin', 'clean:tmp']);
   grunt.registerTask('server', ['sass', 'connect:server', 'watch']);
   grunt.registerTask('deploy', ['build', 'file-creator:cname','gh-pages', 'clean:tmp', 'clean']);
 };

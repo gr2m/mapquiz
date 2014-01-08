@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<svg width="480px" height="400px" viewBox="0 0 480 400" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" xmlns:sketch="http://www.bohemiancoding.com/sketch/ns">
+    <title>controls</title>
+    <description>Created with Sketch (http://www.bohemiancoding.com/sketch)</description>
+    <defs></defs>
+    <g id="Page-1" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd" sketch:type="MSPage">
+        <g id="controls" sketch:type="MSArtboardGroup" fill="#FFFFFF">
+            <g id="A" sketch:type="MSLayerGroup" transform="translate(21.000000, 263.000000)">
+                <path d="M74.7099001,-0.0116524099 L254.529884,82.982188 C243.246791,97.1193052 232.964466,111.81305 223.76236,127.000125 L0.00613750676,127.000159 C18.701876,82.0647004 43.8992886,39.4914102 74.7099001,-0.0116524099 Z" id="button-A" opacity="0.5" sketch:type="MSShapeGroup"></path>
+                <text sketch:type="MSTextLayer" font-family="Helvetica" font-size="80" font-weight="bold" sketch:alignment="middle">
+                    <tspan x="98" y="111">A</tspan>
+                </text>
+            </g>
+            <g id="B" sketch:type="MSLayerGroup" transform="translate(102.000000, 159.000000)">
+                <path d="M96.3386057,0.0139479514 L226.394702,131.223535 C209.61291,146.244121 194.124279,162.201924 180.067984,178.986064 L0.108835342,95.9279938 C28.0441458,61.351944 60.3258478,29.2171341 96.3386057,0.0139479514 Z" id="button-B" opacity="0.5" sketch:type="MSShapeGroup"></path>
+                <text sketch:type="MSTextLayer" font-family="Helvetica" font-size="80" font-weight="bold" sketch:alignment="middle">
+                    <tspan x="88" y="121">B</tspan>
+                </text>
+            </g>
+            <g id="C" sketch:type="MSLayerGroup" transform="translate(206.000000, 77.000000)">
+                <path d="M0.195655506,75.7356947 L129.927835,206.618493 C149.175933,190.085277 170.024886,174.751689 192.278327,160.774171 L117.120452,0.437366572 C75.0175147,22.409235 35.852121,47.6604636 0.195655506,75.7356947 Z" id="button-C" opacity="0.5" sketch:type="MSShapeGroup"></path>
+                <text sketch:type="MSTextLayer" font-family="Helvetica" font-size="80" font-weight="bold" sketch:alignment="middle">
+                    <tspan x="76" y="133">C</tspan>
+                </text>
+            </g>
+            <g id="D" sketch:type="MSLayerGroup" transform="translate(332.000000, 18.000000)">
+                <path d="M0.0206832137,54.8637295 L74.8498741,214.499342 C94.8642168,202.433466 115.959672,191.445975 138,181.645409 L138,0.0253451253 C89.4145102,14.5667859 43.2215353,33.0055307 0.0206832137,54.8637295 Z" id="button-D" opacity="0.5" sketch:type="MSShapeGroup"></path>
+                <text sketch:type="MSTextLayer" font-family="Helvetica" font-size="80" font-weight="bold" sketch:alignment="middle">
+                    <tspan x="62" y="133">D</tspan>
+                </text>
+            </g>
+        </g>
+    </g>
+</svg>
