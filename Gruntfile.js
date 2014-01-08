@@ -5,6 +5,9 @@ var mountFolder = function (connect, dir) {
 
 module.exports = function(grunt) {
 
+  // load all grunt tasks (node_modules/grunt-* packages)
+  require('matchdep').filterDev('grunt-*').forEach(grunt.loadNpmTasks);
+
   // Project configuration.
   grunt.initConfig({
 
@@ -144,10 +147,12 @@ module.exports = function(grunt) {
 
     // replace blocks of script / style tags with
     // their concatinated & minified versions
+    // https://github.com/yeoman/grunt-usemin
     usemin: {
       html: 'build/index.html'
     },
 
+    // https://github.com/gruntjs/grunt-contrib-sass
     // compile *.scss files into *.css
     sass: {
       build: {
@@ -216,6 +221,7 @@ module.exports = function(grunt) {
       }
     },
 
+    // https://github.com/canvace/grunt-appcache
     appcache: {
       options: {
         basePath: 'build'
@@ -228,6 +234,7 @@ module.exports = function(grunt) {
       }
     },
 
+    // https://github.com/yoniholmes/grunt-text-replace
     replace: {
       html: {
         src: ['build/index.html'],
@@ -251,6 +258,7 @@ module.exports = function(grunt) {
       }
     },
 
+    // https://github.com/vojtajina/grunt-bump
     // bump version of app
     bump: {
       options: {
@@ -268,7 +276,8 @@ module.exports = function(grunt) {
     },
 
 
-    // add CNAME file
+    // https://github.com/travis-hilterbrand/grunt-file-creator
+    // to add CNAME file before deploying to githup pages
     'file-creator': {
       'cname': {
         'build/CNAME': function(fs, fd, done) {
@@ -278,6 +287,7 @@ module.exports = function(grunt) {
       }
     },
 
+    // https://github.com/tschaub/grunt-gh-pages
     // deploy build/ folder to gh-pages branch
     'gh-pages': {
       options: {
@@ -288,42 +298,6 @@ module.exports = function(grunt) {
       }
     }
   });
-
-  // Load the plugin that provides the "uglify" task.
-  grunt.loadNpmTasks('grunt-contrib-jshint');
-  grunt.loadNpmTasks('grunt-contrib-watch');
-  grunt.loadNpmTasks('grunt-contrib-connect');
-  grunt.loadNpmTasks('grunt-contrib-clean');
-  grunt.loadNpmTasks('grunt-contrib-copy');
-
-  // https://github.com/yeoman/grunt-usemin
-  grunt.loadNpmTasks('grunt-usemin');
-  grunt.loadNpmTasks('grunt-contrib-concat');
-  grunt.loadNpmTasks('grunt-contrib-cssmin');
-  grunt.loadNpmTasks('grunt-contrib-uglify');
-  grunt.loadNpmTasks('grunt-contrib-requirejs');
-
-  // https://github.com/yeoman/grunt-filerev
-  grunt.loadNpmTasks('grunt-filerev');
-
-  // https://github.com/canvace/grunt-appcache
-  grunt.loadNpmTasks('grunt-appcache');
-
-  // https://github.com/yoniholmes/grunt-text-replace
-  grunt.loadNpmTasks('grunt-text-replace');
-
-  // https://github.com/vojtajina/grunt-bump
-  grunt.loadNpmTasks('grunt-bump');
-
-  // https://github.com/gruntjs/grunt-contrib-sass
-  grunt.loadNpmTasks('grunt-contrib-sass');
-
-  // https://github.com/tschaub/grunt-gh-pages
-  grunt.loadNpmTasks('grunt-gh-pages');
-
-  // https://github.com/travis-hilterbrand/grunt-file-creator
-  // to add CNAME file before deploying to githup pages
-  grunt.loadNpmTasks('grunt-file-creator');
 
   // Default task(s).
   grunt.registerTask('default', ['watch']);
