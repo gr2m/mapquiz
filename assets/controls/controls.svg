@@ -5,28 +5,34 @@
     <defs></defs>
     <g id="Page-1" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd" sketch:type="MSPage">
         <g id="controls" sketch:type="MSArtboardGroup" fill="#FFFFFF">
-            <g id="A" sketch:type="MSLayerGroup" transform="translate(21.000000, 263.000000)">
-                <path d="M74.7099001,-0.0116524099 L254.529884,82.982188 C243.246791,97.1193052 232.964466,111.81305 223.76236,127.000125 L0.00613750676,127.000159 C18.701876,82.0647004 43.8992886,39.4914102 74.7099001,-0.0116524099 Z" id="button-A" opacity="0.5" sketch:type="MSShapeGroup"></path>
+            <g id="A" sketch:type="MSLayerGroup" transform="translate(20.000000, 260.000000)">
+                <path d="M78.7267554,0.417031485 L258.584119,83.4281242 C245.245059,99.8857277 233.268736,117.110163 222.782306,135.000126 L-0.0433510195,135.000159 C19.2398732,87.240498 45.8480607,42.0993435 78.7267554,0.417031485 Z" id="button-A" opacity="0.5" sketch:type="MSShapeGroup"></path>
                 <text sketch:type="MSTextLayer" font-family="Helvetica" font-size="80" font-weight="bold" sketch:alignment="middle">
-                    <tspan x="98" y="111">A</tspan>
+                    <tspan x="98" y="114">A</tspan>
                 </text>
             </g>
-            <g id="B" sketch:type="MSLayerGroup" transform="translate(102.000000, 159.000000)">
-                <path d="M96.3386057,0.0139479514 L226.394702,131.223535 C209.61291,146.244121 194.124279,162.201924 180.067984,178.986064 L0.108835342,95.9279938 C28.0441458,61.351944 60.3258478,29.2171341 96.3386057,0.0139479514 Z" id="button-B" opacity="0.5" sketch:type="MSShapeGroup"></path>
+            <g id="B" sketch:type="MSLayerGroup" transform="translate(103.000000, 158.000000)">
+                <path d="M97.8658592,0 L226.229247,129.501866 L227.869587,131.156754 C210.466851,146.634833 194.4417,163.116448 179.947718,180.479238 L1.88151716e-11,97.4264429 C28.3446161,62.2605067 61.1818812,29.6134355 97.8658592,0 Z" id="button-B" opacity="0.5" sketch:type="MSShapeGroup"></path>
                 <text sketch:type="MSTextLayer" font-family="Helvetica" font-size="80" font-weight="bold" sketch:alignment="middle">
                     <tspan x="88" y="121">B</tspan>
                 </text>
             </g>
             <g id="C" sketch:type="MSLayerGroup" transform="translate(206.000000, 77.000000)">
-                <path d="M0.195655506,75.7356947 L129.927835,206.618493 C149.175933,190.085277 170.024886,174.751689 192.278327,160.774171 L117.120452,0.437366572 C75.0175147,22.409235 35.852121,47.6604636 0.195655506,75.7356947 Z" id="button-C" opacity="0.5" sketch:type="MSShapeGroup"></path>
+                <path d="M1.63479456e-07,76.5497389 L127.842058,205.525651 L129.779951,207.480731 C149.504073,190.42983 170.925042,174.643894 193.829375,160.293001 L118.692033,1.13686838e-13 C75.8999981,22.2900825 36.1363738,47.9657415 1.63479456e-07,76.5497389 Z" id="button-C" opacity="0.5" sketch:type="MSShapeGroup"></path>
                 <text sketch:type="MSTextLayer" font-family="Helvetica" font-size="80" font-weight="bold" sketch:alignment="middle">
                     <tspan x="76" y="133">C</tspan>
                 </text>
             </g>
-            <g id="D" sketch:type="MSLayerGroup" transform="translate(332.000000, 18.000000)">
-                <path d="M0.0206832137,54.8637295 L74.8498741,214.499342 C94.8642168,202.433466 115.959672,191.445975 138,181.645409 L138,0.0253451253 C89.4145102,14.5667859 43.2215353,33.0055307 0.0206832137,54.8637295 Z" id="button-D" opacity="0.5" sketch:type="MSShapeGroup"></path>
+            <g id="D" sketch:type="MSLayerGroup" transform="translate(331.000000, 17.000000)">
+                <path d="M0,57.2685376 L74.9168512,217.091158 C96.8330981,203.728898 120.063306,191.665643 144.42628,181.045749 L144.42628,0 C93.4539851,14.9909871 45.0829479,34.2629536 0,57.2685376 Z" id="button-D" opacity="0.5" sketch:type="MSShapeGroup"></path>
                 <text sketch:type="MSTextLayer" font-family="Helvetica" font-size="80" font-weight="bold" sketch:alignment="middle">
                     <tspan x="62" y="133">D</tspan>
+                </text>
+            </g>
+            <g id="?" sketch:type="MSLayerGroup" transform="translate(251.000000, 204.000000)">
+                <path d="M157.578179,35.3500303 C179.088653,22.101378 201.501702,10.3003165 225,-0.135258195 L225,191 L0.421979559,191.000125 C36.8422005,129.71945 90.9861493,76.4344856 157.578179,35.3500303 Z" id="button-?" opacity="0.5" sketch:type="MSShapeGroup"></path>
+                <text sketch:type="MSTextLayer" font-family="Helvetica" font-size="80" font-weight="bold" sketch:alignment="middle">
+                    <tspan x="129.5" y="162">?</tspan>
                 </text>
             </g>
         </g>

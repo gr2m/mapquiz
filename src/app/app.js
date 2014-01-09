@@ -2,8 +2,9 @@ define([
   'marionette',
   'views/ApplicationView',
   'views/AnswerView',
+  'views/HintView',
   'fastclick',
-], function (Marionette, ApplicationView, AnswerView, FastClick) {
+], function (Marionette, ApplicationView, AnswerView, HintView, FastClick) {
   'use strict';
 
   var app = new Marionette.Application();
@@ -16,7 +17,7 @@ define([
 
   app.addInitializer(function () {
     var countriesGeoJson;
-    var optionList;
+    var controlList;
 
     // render main app view (layout)
     app.main.show(appView);
@@ -26,8 +27,39 @@ define([
     appView.renderMap(countriesGeoJson);
 
     // render controls
-    optionList = app.request('options');
-    appView.renderControls(optionList);
+    controlList = app.request('controls');
+    appView.renderControls(controlList);
+
+    // when next country is requested, render map and
+    // the controls accordingly
+    app.vent.on('next', function(country) {
+      appView.map.currentView.highlightCountry(country);
+    });
+
+    //
+    controlList.on('guess:correct', showAnswerAndGotoNext);
+
+    // if there is already a hint, show more of it,
+    // otherwise create a new hint and show it
+    appView.on('hint:request', function() {
+      var hint = app.request('hint:current');
+      var country = app.request('countries:current');
+      var hintView;
+
+      if (hint) {
+        hint.more();
+      } else {
+        hint = app.request('hint:new', country);
+        hintView = new HintView({model: hint});
+        hintView.render();
+      }
+
+      if (hint.isComplete()) {
+        return showAnswerAndGotoNext();
+      }
+
+      app.request('controls:afterhint', country, hint);
+    });
 
     // disable scrolling of root element as our app is fullscreen.
     // As a side effect, that prevents the bouncing on touch devices,
@@ -50,21 +82,16 @@ define([
     app.vent.trigger('next', nextCountry);
   };
 
-  // make app accessible on window for debugging
-  window.app = app;
-
-  // when next country is requested, render map and
-  // the controls accordingly
-  app.vent.on('next', function(country) {
-    appView.map.currentView.highlightCountry(country);
-  });
-
-  //
-  appView.on('answer:correct', function(country) {
+  // show answer
+  var showAnswerAndGotoNext = function() {
+    var country = app.request('countries:current');
     var answer = new AnswerView({model: country});
     answer.render();
     answer.on('remove', app.next);
-  });
+  };
+
+  // make app accessible on window for debugging
+  window.app = app;
 
   // return app instance
   return app;

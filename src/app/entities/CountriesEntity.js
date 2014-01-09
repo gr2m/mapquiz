@@ -2,12 +2,13 @@ define([
   'app',
   'data/countries',
   'collections/CountryList',
-  'collections/OptionList',
+  'collections/ControlList',
   'lodash'
-], function (app, countriesGeoJson, CountryList, OptionList, _) {
+], function (app, countriesGeoJson, CountryList, ControlList, _) {
   'use strict';
 
   var countryList;
+  var currentCountry;
 
   // map function to turn a GeoJson FeatureCollection array
   // into properties for
@@ -21,10 +22,8 @@ define([
     //       "coordinates":[ /*...*/ ]
     //   }}
     // }
-    var firstLetter = feature.properties.name.charAt(0).toLowerCase();
     return _.extend(feature.properties, {
-      id: feature.id,
-      letter: firstLetter
+      id: feature.id
     });
   }
 
@@ -43,6 +42,12 @@ define([
   // handler to get a random country out of current collection
   app.reqres.setHandler('countries:next', function(){
     // shuffle to get a random order
-    return countryList.shuffle()[0];
+    currentCountry = countryList.shuffle()[0];
+    return currentCountry;
+  });
+
+  // handler to get a random country out of current collection
+  app.reqres.setHandler('countries:current', function(){
+    return currentCountry;
   });
 });

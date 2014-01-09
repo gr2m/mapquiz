@@ -4,7 +4,8 @@ require([
   'routers/index',
   'controllers/index',
   'entities/CountriesEntity',
-  'entities/OptionsEntity'
+  'entities/ControlsEntity',
+  'entities/HintEntity'
 ], function (app, Backbone, Router, Controller) {
   'use strict';
 

@@ -1,0 +1,51 @@
+// ANSWER
+#hint {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  padding: 5%;
+  background: rgba(255,255,255,0.2);
+  z-index: 2;
+  color: #fff;
+  font-weight: bold;
+  padding-top: 20px;
+
+  pointer-events: none;
+  text-align: center;
+
+  em {
+    margin-right: .1em;
+    font-style: normal;
+    position: relative;
+
+    &.current {
+      margin-left: 0.1em;
+      color: rgba(255,255,255,0);
+      border-bottom: .1em solid #fff;
+
+      &:before {
+        content: '';
+        display: block;
+        position: absolute;
+        top: 0;
+        left: -0.1em;
+        bottom: -0.1em;
+
+        border-left: .05em solid #fff;
+        -webkit-animation: pulsate 1.1s;
+        -webkit-animation-iteration-count: infinite;
+      }
+
+      ~ em {
+        color: rgba(255,255,255,0);
+        border-bottom: .1em solid #fff;
+      }
+    }
+  }
+}
+
+@-webkit-keyframes pulsate {
+    0% {border-left-color: rgba(255,255,255,1);}
+    50% {border-left-color: rgba(255,255,255,0);}
+}

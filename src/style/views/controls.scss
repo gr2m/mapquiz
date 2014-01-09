@@ -3,27 +3,43 @@
 #controls svg {
   z-index: 2;
   position: fixed;
-  bottom: 0;
-  // left: 0;
-  right: 0;
+  bottom: -3px;
+  right: -3px;
   height: 200px;
   width: 240px;
   pointer-events: none;
 
   g {
-    fill: #fff;
     cursor: pointer;
     pointer-events: all;
 
     path {
-      fill-opacity:0.2;
+      fill: #fff;
+      fill-opacity: 0.3;
+    }
+    path, text {
+      transition-property: fill, fill-opacity;
+      transition-duration: 0.3s;
     }
     &:hover path {
       fill-opacity:0.5;
     }
 
     text {
+      fill: #fff;
       font-size: 70px;
+    }
+
+    &.incorrect {
+      pointer-events: none;
+
+      path, text {
+        fill-opacity: 0.1;
+      }
+    }
+
+    &.correct path {
+      fill-opacity: 0.6;
     }
   }
 

@@ -12,12 +12,14 @@ define([
     template: controlsTemplate,
 
     events: {
-      'click [data-country-id]': 'selectOption'
+      'click [data-control-id]': 'selectOption',
+      'click .hint': 'requestHint',
     },
 
     initialize: function() {
       // render when new options available
       this.listenTo(this.collection, 'reset', this.render);
+      this.listenTo(this.collection, 'change:status', this.renderStatus);
 
       this.listenToKeyboard();
     },
@@ -40,21 +42,25 @@ define([
           $el.find('[data-country-id]').eq( index ).trigger('click');
         });
       });
+
+      // add keybord shortcuts for hint button
+      Mousetrap.bind(['?','/'], function() {
+        $el.find('.hint').trigger('click');
+      });
+    },
+
+    renderStatus: function(control, status) {
+      this.$el.find('[data-control-id="'+control.id+'"]').attr('class', status);
     },
 
     selectOption: function(event) {
       var $button = $(event.currentTarget);
-      var selectedCountryId = $button.data('countryId');
-      var country = this.collection.get(selectedCountryId);
+      var id = $button.data('controlId');
+      this.collection.guess(id);
+    },
 
-      if (country.get('isCorrect')) {
-        this.trigger('answer:correct', country);
-        return;
-      }
-
-      $button.siblings().removeClass('active');
-      $button.addClass('animated shake active');
-      setTimeout($.proxy( $button.removeClass, $button), 1000, 'animated shake');
+    requestHint: function() {
+      this.trigger('hint:request');
     }
   });
 
