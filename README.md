@@ -14,6 +14,7 @@ following keybord shortcuts are supported:
 `+` / `-`: zoom in / out  
 `1` - `4`: select answer 1 - 4  
 `a` - `z`: select answer by first letter  
+`?` / `/`: hint (hold to resolve)
 
 
 ## Download & Install requirements

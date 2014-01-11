@@ -22,7 +22,8 @@ define([
 
     renderControls: function(optionList) {
       var controls = new ControlsView({collection: optionList});
-      this.listenTo(controls, 'hint:request', this.onHintRequest);
+      this.listenTo(controls, 'request:hint', this.onHintRequest);
+      this.listenTo(controls, 'request:resolve', this.onResolveRequest);
       this.controls.show(controls);
     },
 
@@ -33,7 +34,11 @@ define([
     },
 
     onHintRequest: function() {
-      this.trigger('hint:request');
+      this.trigger('request:hint');
+    },
+
+    onResolveRequest: function() {
+      this.trigger('request:resolve');
     },
 
     onAnswerResolved: function() {

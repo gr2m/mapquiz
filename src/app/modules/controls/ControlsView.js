@@ -14,6 +14,12 @@ define([
     events: {
       'click [data-control-id]': 'selectOption',
       'click .hint': 'requestHint',
+
+      // once an answer is hinted, the entire country needs to
+      // be typed. As a shortcut, the hint button can be hold
+      // for a bit, and the country will be resolved at once
+      'mousedown .hint': 'startTimerForResolve',
+      'touchstart .hint': 'startTimerForResolve'
     },
 
     initialize: function() {
@@ -25,8 +31,11 @@ define([
     },
 
     listenToKeyboard: function() {
+      var view = this;
       var $el = this.$el;
       var allLetters = 'abcdefghijklmnopqrstuvwxyz'.split('');
+      var resolveAllTimeout;
+      var resolveAllTriggered;
 
       // add keyboard shortcuts to select options by first letter
       _.each(allLetters, function(letter) {
@@ -44,9 +53,30 @@ define([
       });
 
       // add keybord shortcuts for hint button
+      // Extra use case: the hint button can be pressed & hold
+      // to resolve the entiry country, without typing all
+      // letters seperately after hint was used.
       Mousetrap.bind(['?','/'], function() {
-        $el.find('.hint').trigger('click');
-      });
+        if (resolveAllTriggered) {
+          resolveAllTriggered = false;
+          return;
+        }
+        view.requestHint();
+        clearTimeout(resolveAllTimeout);
+        resolveAllTimeout = undefined;
+      }, 'keyup');
+
+      Mousetrap.bind(['?','/'], function() {
+        var callback = function() {
+          view.requestResolve();
+          resolveAllTriggered = true;
+        };
+        if (resolveAllTimeout || resolveAllTriggered) {
+          return;
+        }
+
+        resolveAllTimeout = setTimeout(callback, 500);
+      }, 'keydown');
     },
 
     renderStatus: function(control, status) {
@@ -60,9 +90,26 @@ define([
     },
 
     requestHint: function() {
-      this.trigger('hint:request');
+      this.trigger('request:hint');
+      clearTimeout(longClickTimer);
+    },
+
+    requestResolve: function() {
+      this.trigger('request:resolve');
+
+      // this prevents from click event to be triggered
+      // after holding the hint button
+      this.render();
+    },
+
+    startTimerForResolve: function() {
+      var callback = _.bind(this.requestResolve, this);
+      clearTimeout(longClickTimer);
+      longClickTimer = setTimeout(callback, 700);
     }
   });
+
+  var longClickTimer;
 
   return ControlsView;
 });

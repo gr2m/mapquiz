@@ -53,13 +53,19 @@ define([
     });
 
     // show a(nother) letter for the current answer
-    appView.on('hint:request', function() {
+    appView.on('request:hint', function() {
       var answer = app.request('answer');
       answer.hint();
 
       if (! answer.isResolved()) {
         app.request('controls:afterhint', answer);
       }
+    });
+
+    // show a(nother) letter for the current answer
+    appView.on('request:resolve', function() {
+      var answer = app.request('answer');
+      answer.resolve();
     });
 
     //
