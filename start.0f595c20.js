@@ -1,5 +1,5 @@
 
-define('hbs!templates/map', ['handlebars'], function(Handlebars){ 
+define('hbs!modules/map/map', ['handlebars'], function(Handlebars){ 
 return Handlebars.template(function (Handlebars,depth0,helpers,partials,data) {
   this.compilerInfo = [4,'>= 1.0.0'];
 helpers = this.merge(helpers, Handlebars.helpers); data = data || {};
@@ -10,10 +10,10 @@ helpers = this.merge(helpers, Handlebars.helpers); data = data || {};
   });
 });
 
-define('views/MapView',[
+define('modules/map/MapView',[
   'marionette',
   'leaflet',
-  'hbs!templates/map',
+  'hbs!./map',
   'mousetrap',
   'fastclick',
   'fittext',
@@ -92,7 +92,7 @@ define('views/MapView',[
   return MapView;
 });
 
-define('hbs!templates/controls', ['handlebars'], function(Handlebars){ 
+define('hbs!modules/controls/controls', ['handlebars'], function(Handlebars){ 
 return Handlebars.template(function (Handlebars,depth0,helpers,partials,data) {
   this.compilerInfo = [4,'>= 1.0.0'];
 helpers = this.merge(helpers, Handlebars.helpers); data = data || {};
@@ -128,9 +128,9 @@ helpers = this.merge(helpers, Handlebars.helpers); data = data || {};
   });
 });
 
-define('views/ControlsView',[
+define('modules/controls/ControlsView',[
   'marionette',
-  'hbs!templates/controls',
+  'hbs!./controls',
   'lodash',
   'jquery',
   'fittext',
@@ -144,6 +144,12 @@ define('views/ControlsView',[
     events: {
       'click [data-control-id]': 'selectOption',
       'click .hint': 'requestHint',
+
+      // once an answer is hinted, the entire country needs to
+      // be typed. As a shortcut, the hint button can be hold
+      // for a bit, and the country will be resolved at once
+      'mousedown .hint': 'startTimerForResolve',
+      'touchstart .hint': 'startTimerForResolve'
     },
 
     initialize: function() {
@@ -155,8 +161,11 @@ define('views/ControlsView',[
     },
 
     listenToKeyboard: function() {
+      var view = this;
       var $el = this.$el;
       var allLetters = 'abcdefghijklmnopqrstuvwxyz'.split('');
+      var resolveAllTimeout;
+      var resolveAllTriggered;
 
       // add keyboard shortcuts to select options by first letter
       _.each(allLetters, function(letter) {
@@ -174,9 +183,30 @@ define('views/ControlsView',[
       });
 
       // add keybord shortcuts for hint button
+      // Extra use case: the hint button can be pressed & hold
+      // to resolve the entiry country, without typing all
+      // letters seperately after hint was used.
       Mousetrap.bind(['?','/'], function() {
-        $el.find('.hint').trigger('click');
-      });
+        if (resolveAllTriggered) {
+          resolveAllTriggered = false;
+          return;
+        }
+        view.requestHint();
+        clearTimeout(resolveAllTimeout);
+        resolveAllTimeout = undefined;
+      }, 'keyup');
+
+      Mousetrap.bind(['?','/'], function() {
+        var callback = function() {
+          view.requestResolve();
+          resolveAllTriggered = true;
+        };
+        if (resolveAllTimeout || resolveAllTriggered) {
+          return;
+        }
+
+        resolveAllTimeout = setTimeout(callback, 500);
+      }, 'keydown');
     },
 
     renderStatus: function(control, status) {
@@ -190,14 +220,31 @@ define('views/ControlsView',[
     },
 
     requestHint: function() {
-      this.trigger('hint:request');
+      this.trigger('request:hint');
+      clearTimeout(longClickTimer);
+    },
+
+    requestResolve: function() {
+      this.trigger('request:resolve');
+
+      // this prevents from click event to be triggered
+      // after holding the hint button
+      this.render();
+    },
+
+    startTimerForResolve: function() {
+      var callback = _.bind(this.requestResolve, this);
+      clearTimeout(longClickTimer);
+      longClickTimer = setTimeout(callback, 700);
     }
   });
+
+  var longClickTimer;
 
   return ControlsView;
 });
 
-define('hbs!templates/answer', ['handlebars'], function(Handlebars){ 
+define('hbs!modules/answer/answer', ['handlebars'], function(Handlebars){ 
 return Handlebars.template(function (Handlebars,depth0,helpers,partials,data) {
   this.compilerInfo = [4,'>= 1.0.0'];
 helpers = this.merge(helpers, Handlebars.helpers); data = data || {};
@@ -213,9 +260,9 @@ helpers = this.merge(helpers, Handlebars.helpers); data = data || {};
   });
 });
 
-define('views/AnswerView',[
+define('modules/answer/AnswerView',[
   'marionette',
-  'hbs!templates/answer',
+  'hbs!./answer',
   'lodash',
   'fittext'
 ], function (Marionette, answerTemplate, _, fitText) {
@@ -274,7 +321,7 @@ define('views/AnswerView',[
   return AnswerView;
 });
 
-define('hbs!templates/application', ['handlebars'], function(Handlebars){ 
+define('hbs!modules/layout/layout', ['handlebars'], function(Handlebars){ 
 return Handlebars.template(function (Handlebars,depth0,helpers,partials,data) {
   this.compilerInfo = [4,'>= 1.0.0'];
 helpers = this.merge(helpers, Handlebars.helpers); data = data || {};
@@ -285,17 +332,17 @@ helpers = this.merge(helpers, Handlebars.helpers); data = data || {};
   });
 });
 
-define('views/ApplicationView',[
+define('modules/layout/ApplicationView',[
   'marionette',
-  'views/MapView',
-  'views/ControlsView',
-  'views/AnswerView',
-  'hbs!templates/application'
-], function (Marionette, MapView, ControlsView, AnswerView, applicationTemplate) {
+  'modules/map/MapView',
+  'modules/controls/ControlsView',
+  'modules/answer/AnswerView',
+  'hbs!./layout'
+], function (Marionette, MapView, ControlsView, AnswerView, template) {
   
 
   return Marionette.Layout.extend({
-    template: applicationTemplate,
+    template: template,
 
     regions: {
       map: '#map',
@@ -309,7 +356,8 @@ define('views/ApplicationView',[
 
     renderControls: function(optionList) {
       var controls = new ControlsView({collection: optionList});
-      this.listenTo(controls, 'hint:request', this.onHintRequest);
+      this.listenTo(controls, 'request:hint', this.onHintRequest);
+      this.listenTo(controls, 'request:resolve', this.onResolveRequest);
       this.controls.show(controls);
     },
 
@@ -320,7 +368,11 @@ define('views/ApplicationView',[
     },
 
     onHintRequest: function() {
-      this.trigger('hint:request');
+      this.trigger('request:hint');
+    },
+
+    onResolveRequest: function() {
+      this.trigger('request:resolve');
     },
 
     onAnswerResolved: function() {
@@ -331,7 +383,7 @@ define('views/ApplicationView',[
 
 define('app',[
   'marionette',
-  'views/ApplicationView',
+  'modules/layout/ApplicationView',
   'fastclick',
 ], function (Marionette, ApplicationView, FastClick) {
   
@@ -384,13 +436,19 @@ define('app',[
     });
 
     // show a(nother) letter for the current answer
-    appView.on('hint:request', function() {
+    appView.on('request:hint', function() {
       var answer = app.request('answer');
       answer.hint();
 
       if (! answer.isResolved()) {
         app.request('controls:afterhint', answer);
       }
+    });
+
+    // show a(nother) letter for the current answer
+    appView.on('request:resolve', function() {
+      var answer = app.request('answer');
+      answer.resolve();
     });
 
     //
@@ -422,32 +480,6 @@ define('app',[
 
   // return app instance
   return app;
-});
-
-/*global define */
-
-define('routers/index',[
-  'marionette'
-], function (Marionette) {
-  
-
-  return Marionette.AppRouter.extend({
-    appRoutes: {
-      '*filter': 'setFilter'
-    }
-  });
-});
-
-define('controllers/index',[
-  'app'
-], function (/*app*/) {
-  
-
-  return {
-    setFilter: function (/*param*/) {
-      // set some filter and whatnot
-    }
-  };
 });
 
 define('data/countries',[], function() {
@@ -973,18 +1005,13 @@ define('entities/AnswerEntity',[
 
 require([
   'app',
-  'backbone',
-  'routers/index',
-  'controllers/index',
   'entities/CountriesEntity',
   'entities/ControlsEntity',
   'entities/AnswerEntity'
-], function (app, Backbone, Router, Controller) {
+], function (app) {
   
 
   app.start();
-  new Router({ controller: Controller });
-  Backbone.history.start();
 });
 
 define("start", function(){});
