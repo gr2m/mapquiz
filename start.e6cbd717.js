@@ -189,6 +189,7 @@ define('modules/controls/ControlsView',[
       Mousetrap.bind(['?','/'], function() {
         if (resolveAllTriggered) {
           resolveAllTriggered = false;
+          resolveAllTimeout = undefined;
           return;
         }
         view.requestHint();
@@ -201,6 +202,7 @@ define('modules/controls/ControlsView',[
           view.requestResolve();
           resolveAllTriggered = true;
         };
+
         if (resolveAllTimeout || resolveAllTriggered) {
           return;
         }
@@ -885,8 +887,10 @@ define('entities/CountriesEntity',[
 
   // handler to get a random country out of current collection
   app.reqres.setHandler('countries:next', function(){
-    // shuffle to get a random order
-    currentCountry = countryList.shuffle()[0];
+    currentCountry = countryList.chain()
+      .without(currentCountry)
+      .shuffle()
+      .first().value();
     return currentCountry;
   });
 
