@@ -197,6 +197,83 @@ define('views/ControlsView',[
   return ControlsView;
 });
 
+define('hbs!templates/answer', ['handlebars'], function(Handlebars){ 
+return Handlebars.template(function (Handlebars,depth0,helpers,partials,data) {
+  this.compilerInfo = [4,'>= 1.0.0'];
+helpers = this.merge(helpers, Handlebars.helpers); data = data || {};
+  var buffer = "", stack1, functionType="function";
+
+
+  buffer += "<div id=\"answer\">\n  <span>";
+  if (stack1 = helpers.hintedAnswer) { stack1 = stack1.call(depth0, {hash:{},data:data}); }
+  else { stack1 = depth0.hintedAnswer; stack1 = typeof stack1 === functionType ? stack1.apply(depth0) : stack1; }
+  if(stack1 || stack1 === 0) { buffer += stack1; }
+  buffer += "</span>\n</div>\n";
+  return buffer;
+  });
+});
+
+define('views/AnswerView',[
+  'marionette',
+  'hbs!templates/answer',
+  'lodash',
+  'fittext'
+], function (Marionette, answerTemplate, _, fitText) {
+  
+
+  var AnswerView = Marionette.ItemView.extend({
+    template: answerTemplate,
+    initialize: function() {
+      this.listenTo(this.model, 'resolve', this.resolve);
+      this.listenTo(this.model, 'hint reset', this.render);
+    },
+
+    onRender: function() {
+      // hintLength === 0 means that the answer has been initialized
+      // and is not meant to be shown yet. When resolved, hintlength
+      // is lenght of answer
+      if ( this.model.hintLength() === 0 ) {
+        this.$el.hide();
+        return;
+      }
+
+      this.$el.show();
+      this.$el.find('span').removeClass('animated bounceOut');
+      this.$el.find('#answer').removeClass('resolved');
+      fitText(this.el, 1.2);
+    },
+
+    resolve: function() {
+      var view = this;
+
+      view.render();
+      view.$el.find('#answer').addClass('resolved');
+      view.$el.find('span').addClass('animated bounceOut');
+      setTimeout(function() {
+        view.trigger('answer:displayed');
+      }, 1000);
+    },
+
+    templateHelpers: {
+
+      // turns "Germany" into "Ger____" if length is 3
+      hintedAnswer: function() {
+        var answer = this;
+
+        return answer.name.replace(/\w/g, function(match, i) {
+          if (i === answer.hintLength) {
+            return '<em class="current">'+match+'</em>';
+          }
+
+          return '<em>'+match+'</em>';
+        });
+      }
+    }
+  });
+
+  return AnswerView;
+});
+
 define('hbs!templates/application', ['handlebars'], function(Handlebars){ 
 return Handlebars.template(function (Handlebars,depth0,helpers,partials,data) {
   this.compilerInfo = [4,'>= 1.0.0'];
@@ -212,8 +289,9 @@ define('views/ApplicationView',[
   'marionette',
   'views/MapView',
   'views/ControlsView',
+  'views/AnswerView',
   'hbs!templates/application'
-], function (Marionette, MapView, ControlsView, applicationTemplate) {
+], function (Marionette, MapView, ControlsView, AnswerView, applicationTemplate) {
   
 
   return Marionette.Layout.extend({
@@ -235,117 +313,27 @@ define('views/ApplicationView',[
       this.controls.show(controls);
     },
 
+    renderAnswer: function(answer) {
+      var answerView = new AnswerView({model: answer});
+      this.listenTo(answerView, 'answer:displayed', this.onAnswerResolved);
+      answerView.$el.appendTo(this.$el);
+    },
+
     onHintRequest: function() {
       this.trigger('hint:request');
-    }
-  });
-});
-
-define('hbs!templates/answer', ['handlebars'], function(Handlebars){ 
-return Handlebars.template(function (Handlebars,depth0,helpers,partials,data) {
-  this.compilerInfo = [4,'>= 1.0.0'];
-helpers = this.merge(helpers, Handlebars.helpers); data = data || {};
-  var buffer = "", stack1, functionType="function", escapeExpression=this.escapeExpression;
-
-
-  buffer += "<div id=\"answer\" class=\"animated bounceOut\">\n  ";
-  if (stack1 = helpers.name) { stack1 = stack1.call(depth0, {hash:{},data:data}); }
-  else { stack1 = depth0.name; stack1 = typeof stack1 === functionType ? stack1.apply(depth0) : stack1; }
-  buffer += escapeExpression(stack1)
-    + "\n</div>\n";
-  return buffer;
-  });
-});
-
-define('views/AnswerView',[
-  'marionette',
-  'hbs!templates/answer',
-  'lodash',
-  'fittext'
-], function (Marionette, answerTemplate, _, fitText) {
-  
-
-  var AnswerView = Marionette.ItemView.extend({
-    template: answerTemplate,
-    onRender: function() {
-      var that = this;
-
-      this.$el.appendTo(document.body);
-      fitText(this.el, 1.2);
-
-      // remove when animation done
-      setTimeout( function() {
-        that.remove();
-        that.trigger('remove');
-      }, 1000);
-    }
-  });
-
-  return AnswerView;
-});
-
-define('hbs!templates/hint', ['handlebars'], function(Handlebars){ 
-return Handlebars.template(function (Handlebars,depth0,helpers,partials,data) {
-  this.compilerInfo = [4,'>= 1.0.0'];
-helpers = this.merge(helpers, Handlebars.helpers); data = data || {};
-  var buffer = "", stack1, functionType="function";
-
-
-  buffer += "<div id=\"hint\">\n  ";
-  if (stack1 = helpers.coveredHint) { stack1 = stack1.call(depth0, {hash:{},data:data}); }
-  else { stack1 = depth0.coveredHint; stack1 = typeof stack1 === functionType ? stack1.apply(depth0) : stack1; }
-  if(stack1 || stack1 === 0) { buffer += stack1; }
-  buffer += "\n</div>\n";
-  return buffer;
-  });
-});
-
-define('views/HintView',[
-  'marionette',
-  'hbs!templates/hint',
-  'lodash',
-  'fittext'
-], function (Marionette, hintTemplate, _, fitText) {
-  
-
-  var HintView = Marionette.ItemView.extend({
-    template: hintTemplate,
-    initialize: function() {
-      this.listenTo(this.model, 'change:length', this.render);
-      this.listenTo(this.model, 'destroy', this.remove);
     },
 
-    onRender: function() {
-      this.$el.appendTo(document.body);
-      fitText(this.el, 1.2);
-    },
-    templateHelpers: {
-
-      // turns "Germany" into "Ger____" if length is 3
-      coveredHint: function() {
-        var hint = this;
-
-        return hint.name.replace(/\w/g, function(match, i) {
-          if (i === hint.length) {
-            return '<em class="current">'+match+'</em>';
-          }
-
-          return '<em>'+match+'</em>';
-        });
-      }
+    onAnswerResolved: function() {
+      this.trigger('answer:displayed');
     }
   });
-
-  return HintView;
 });
 
 define('app',[
   'marionette',
   'views/ApplicationView',
-  'views/AnswerView',
-  'views/HintView',
   'fastclick',
-], function (Marionette, ApplicationView, AnswerView, HintView, FastClick) {
+], function (Marionette, ApplicationView, FastClick) {
   
 
   var app = new Marionette.Application();
@@ -359,6 +347,7 @@ define('app',[
   app.addInitializer(function () {
     var countriesGeoJson;
     var controlList;
+    var answer;
 
     // render main app view (layout)
     app.main.show(appView);
@@ -371,36 +360,41 @@ define('app',[
     controlList = app.request('controls');
     appView.renderControls(controlList);
 
-    // when next country is requested, render map and
-    // the controls accordingly
+    // prepare answer display
+    answer = app.request('answer');
+    appView.renderAnswer(answer);
+
+    // when next country is requested, highlight current
+    // country on the map and prepare the answer view
     app.vent.on('next', function(country) {
       appView.map.currentView.highlightCountry(country);
     });
 
-    //
-    controlList.on('guess:correct', showAnswerAndGotoNext);
+    // if answer is already hinted, show another letter,
+    // otherwise resolve directly
+    controlList.on('guess:correct', function() {
+      var answer = app.request('answer');
 
-    // if there is already a hint, show more of it,
-    // otherwise create a new hint and show it
-    appView.on('hint:request', function() {
-      var hint = app.request('hint:current');
-      var country = app.request('countries:current');
-      var hintView;
-
-      if (hint) {
-        hint.more();
-      } else {
-        hint = app.request('hint:new', country);
-        hintView = new HintView({model: hint});
-        hintView.render();
+      if (! answer.hasHint() ) {
+        return answer.resolve();
       }
 
-      if (hint.isComplete()) {
-        return showAnswerAndGotoNext();
-      }
-
-      app.request('controls:afterhint', country, hint);
+      answer.hint();
+      app.request('controls:afterhint', answer);
     });
+
+    // show a(nother) letter for the current answer
+    appView.on('hint:request', function() {
+      var answer = app.request('answer');
+      answer.hint();
+
+      if (! answer.isResolved()) {
+        app.request('controls:afterhint', answer);
+      }
+    });
+
+    //
+    appView.on('answer:displayed', app.next);
 
     // disable scrolling of root element as our app is fullscreen.
     // As a side effect, that prevents the bouncing on touch devices,
@@ -421,14 +415,6 @@ define('app',[
   app.next = function() {
     var nextCountry = app.request('countries:next');
     app.vent.trigger('next', nextCountry);
-  };
-
-  // show answer
-  var showAnswerAndGotoNext = function() {
-    var country = app.request('countries:current');
-    var answer = new AnswerView({model: country});
-    answer.render();
-    answer.on('remove', app.next);
   };
 
   // make app accessible on window for debugging
@@ -742,10 +728,10 @@ define('collections/ControlList',[
       return this;
     },
 
-    // reloads controls basend on the passed country and hint.
+    // reloads controls basend on the passed country and answer.
     // It randomly generates letters for the other controls
-    reloadForHint: function(countryList, wantedCountry, hint) {
-      var models = getFromHint(countryList, wantedCountry, hint, numOptions);
+    reloadForAnswer: function(countryList, answer) {
+      var models = getFromAnswer(countryList, answer, numOptions);
       this.reset( models );
 
       // return sorted options
@@ -803,11 +789,11 @@ define('collections/ControlList',[
   //
   var vocals = 'aeiou'.split('');
   var consonants = 'bcdfghjklmnpqrstvwxz'.split('');
-  var getFromHint = function(countryList, wantedCountry, hint, numOptions) {
+  var getFromAnswer = function(countryList, answer, numOptions) {
     var models;
     var controlsMap = {};
-    var wantedControl = Control.newFromCountry( wantedCountry, hint.length() );
-    var wantedLetter = hint.wantedLetter();
+    var wantedControl = Control.newFromCountry( answer, answer.hintLength() );
+    var wantedLetter = answer.wantedLetter();
     var bucket = _.contains(vocals, wantedLetter) ? vocals : consonants;
     wantedControl.set('isWanted', true);
     controlsMap[wantedControl.id] = wantedControl;
@@ -901,9 +887,9 @@ define('entities/ControlsEntity',[
   });
 
   // get a hint for current controls
-  app.reqres.setHandler('controls:afterhint', function(country, hint) {
+  app.reqres.setHandler('controls:afterhint', function(answer) {
     var countryList = app.request('countries');
-    controlList.reloadForHint(countryList.shuffle(), country, hint);
+    controlList.reloadForAnswer(countryList.shuffle(), answer);
   });
 
   // when requesting next country, update the list of controls
@@ -914,70 +900,74 @@ define('entities/ControlsEntity',[
   });
 });
 
-define('models/Hint',[
+define('models/Answer',[
   'backbone'
 ], function (Backbone) {
   
 
-  var Hint = Backbone.Model.extend({
+  var Answer = Backbone.Model.extend({
     name: function() {
       return this.get('name');
     },
-    length: function() {
-      return this.get('length');
+    hintLength: function() {
+      return this.get('hintLength') || 0;
     },
     wantedLetter: function() {
-      return this.name().charAt(this.length());
+      return this.name().charAt(this.hintLength());
     },
-    more: function() {
-      var length = this.length();
-      this.set('length', length + 1);
+    hasHint: function() {
+      return this.hintLength() > 0;
+    },
+    hint: function() {
+      var hintLength = this.hintLength();
+      this.set('hintLength', hintLength + 1);
 
       // make sure current letter is not a white space
       if (this.wantedLetter() === ' ') {
-        this.more();
+        return this.hint();
       }
+
+      if (this.isResolved()) {
+        return this.resolve();
+      }
+
+      this.trigger('hint');
     },
-    isComplete: function() {
-      return this.length() === this.name().length;
-    }
-  },{
-    newFromCountry: function(country) {
-      return new this({
+    resolve: function() {
+      this.set('hintLength', this.name().length);
+      this.trigger('resolve');
+    },
+    isResolved: function() {
+      return this.hintLength() === this.name().length;
+    },
+    resetFromCountry: function(country) {
+      this.set({
         name: country.get('name'),
-        length: 1
+        hintLength: 0
       });
+      this.trigger('reset');
     }
   });
 
-  return Hint;
+  return Answer;
 });
 
-define('entities/HintEntity',[
+define('entities/AnswerEntity',[
   'app',
-  'models/Hint'
-], function (app, Hint) {
+  'models/Answer'
+], function (app, Answer) {
   
 
-  var hint;
+  var answer = new Answer();
 
-  // create & return a new hint for the passed country
-  app.reqres.setHandler('hint:new', function(country){
-    hint = Hint.newFromCountry(country);
-    return hint;
+  // get current answer if present
+  app.reqres.setHandler('answer', function(){
+    return answer;
   });
 
-  // get current hint if present
-  app.reqres.setHandler('hint:current', function(){
-    return hint;
-  });
-
-  // when requesting next country, remove the hint;
-  app.vent.on('next', function() {
-    if (hint) {
-      hint.destroy();
-      hint = undefined;
-    }
+  // when requesting next country, (re)initialize answer
+  app.vent.on('next', function(country) {
+    answer.resetFromCountry(country);
   });
 });
 
@@ -988,7 +978,7 @@ require([
   'controllers/index',
   'entities/CountriesEntity',
   'entities/ControlsEntity',
-  'entities/HintEntity'
+  'entities/AnswerEntity'
 ], function (app, Backbone, Router, Controller) {
   
 
