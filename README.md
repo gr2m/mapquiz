@@ -170,12 +170,9 @@ The `/src/app` files & folders en detail
 
 ### Ideas / next steps
 
-* Add a tip feature: Show a `?` button next to the four letters.
-  When clicked, show the First letter of the country on top of the
-  screen + underlines for the remaining letters. The four letters
-  on bottom change to guess the second letter of the country, etc
 * Add statistics. Don't count time, but count number of turns,
   guesses, wrong guesses, tips, etc
+* Add main cities of the world ([geojson](https://github.com/mahemoff/geodata))
 * Add other modes / quizzes, e.g. for federal states of USA
 * Allow to click on countries in the map to put them in the queue
   so that they get asked next.

@@ -21,9 +21,9 @@ define([
   });
 
   // get a hint for current controls
-  app.reqres.setHandler('controls:afterhint', function(country, hint) {
+  app.reqres.setHandler('controls:afterhint', function(answer) {
     var countryList = app.request('countries');
-    controlList.reloadForHint(countryList.shuffle(), country, hint);
+    controlList.reloadForAnswer(countryList.shuffle(), answer);
   });
 
   // when requesting next country, update the list of controls

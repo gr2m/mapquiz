@@ -2,8 +2,9 @@ define([
   'marionette',
   'views/MapView',
   'views/ControlsView',
+  'views/AnswerView',
   'hbs!templates/application'
-], function (Marionette, MapView, ControlsView, applicationTemplate) {
+], function (Marionette, MapView, ControlsView, AnswerView, applicationTemplate) {
   'use strict';
 
   return Marionette.Layout.extend({
@@ -25,8 +26,18 @@ define([
       this.controls.show(controls);
     },
 
+    renderAnswer: function(answer) {
+      var answerView = new AnswerView({model: answer});
+      this.listenTo(answerView, 'answer:displayed', this.onAnswerResolved);
+      answerView.$el.appendTo(this.$el);
+    },
+
     onHintRequest: function() {
       this.trigger('hint:request');
+    },
+
+    onAnswerResolved: function() {
+      this.trigger('answer:displayed');
     }
   });
 });

@@ -24,10 +24,10 @@ define([
       return this;
     },
 
-    // reloads controls basend on the passed country and hint.
+    // reloads controls basend on the passed country and answer.
     // It randomly generates letters for the other controls
-    reloadForHint: function(countryList, wantedCountry, hint) {
-      var models = getFromHint(countryList, wantedCountry, hint, numOptions);
+    reloadForAnswer: function(countryList, answer) {
+      var models = getFromAnswer(countryList, answer, numOptions);
       this.reset( models );
 
       // return sorted options
@@ -85,11 +85,11 @@ define([
   //
   var vocals = 'aeiou'.split('');
   var consonants = 'bcdfghjklmnpqrstvwxz'.split('');
-  var getFromHint = function(countryList, wantedCountry, hint, numOptions) {
+  var getFromAnswer = function(countryList, answer, numOptions) {
     var models;
     var controlsMap = {};
-    var wantedControl = Control.newFromCountry( wantedCountry, hint.length() );
-    var wantedLetter = hint.wantedLetter();
+    var wantedControl = Control.newFromCountry( answer, answer.hintLength() );
+    var wantedLetter = answer.wantedLetter();
     var bucket = _.contains(vocals, wantedLetter) ? vocals : consonants;
     wantedControl.set('isWanted', true);
     controlsMap[wantedControl.id] = wantedControl;

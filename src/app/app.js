@@ -1,10 +1,8 @@
 define([
   'marionette',
   'views/ApplicationView',
-  'views/AnswerView',
-  'views/HintView',
   'fastclick',
-], function (Marionette, ApplicationView, AnswerView, HintView, FastClick) {
+], function (Marionette, ApplicationView, FastClick) {
   'use strict';
 
   var app = new Marionette.Application();
@@ -18,6 +16,7 @@ define([
   app.addInitializer(function () {
     var countriesGeoJson;
     var controlList;
+    var answer;
 
     // render main app view (layout)
     app.main.show(appView);
@@ -30,36 +29,41 @@ define([
     controlList = app.request('controls');
     appView.renderControls(controlList);
 
-    // when next country is requested, render map and
-    // the controls accordingly
+    // prepare answer display
+    answer = app.request('answer');
+    appView.renderAnswer(answer);
+
+    // when next country is requested, highlight current
+    // country on the map and prepare the answer view
     app.vent.on('next', function(country) {
       appView.map.currentView.highlightCountry(country);
     });
 
-    //
-    controlList.on('guess:correct', showAnswerAndGotoNext);
+    // if answer is already hinted, show another letter,
+    // otherwise resolve directly
+    controlList.on('guess:correct', function() {
+      var answer = app.request('answer');
 
-    // if there is already a hint, show more of it,
-    // otherwise create a new hint and show it
-    appView.on('hint:request', function() {
-      var hint = app.request('hint:current');
-      var country = app.request('countries:current');
-      var hintView;
-
-      if (hint) {
-        hint.more();
-      } else {
-        hint = app.request('hint:new', country);
-        hintView = new HintView({model: hint});
-        hintView.render();
+      if (! answer.hasHint() ) {
+        return answer.resolve();
       }
 
-      if (hint.isComplete()) {
-        return showAnswerAndGotoNext();
-      }
-
-      app.request('controls:afterhint', country, hint);
+      answer.hint();
+      app.request('controls:afterhint', answer);
     });
+
+    // show a(nother) letter for the current answer
+    appView.on('hint:request', function() {
+      var answer = app.request('answer');
+      answer.hint();
+
+      if (! answer.isResolved()) {
+        app.request('controls:afterhint', answer);
+      }
+    });
+
+    //
+    appView.on('answer:displayed', app.next);
 
     // disable scrolling of root element as our app is fullscreen.
     // As a side effect, that prevents the bouncing on touch devices,
@@ -80,14 +84,6 @@ define([
   app.next = function() {
     var nextCountry = app.request('countries:next');
     app.vent.trigger('next', nextCountry);
-  };
-
-  // show answer
-  var showAnswerAndGotoNext = function() {
-    var country = app.request('countries:current');
-    var answer = new AnswerView({model: country});
-    answer.render();
-    answer.on('remove', app.next);
   };
 
   // make app accessible on window for debugging
