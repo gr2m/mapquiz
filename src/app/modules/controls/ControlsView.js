@@ -59,6 +59,7 @@ define([
       Mousetrap.bind(['?','/'], function() {
         if (resolveAllTriggered) {
           resolveAllTriggered = false;
+          resolveAllTimeout = undefined;
           return;
         }
         view.requestHint();
@@ -71,6 +72,7 @@ define([
           view.requestResolve();
           resolveAllTriggered = true;
         };
+
         if (resolveAllTimeout || resolveAllTriggered) {
           return;
         }
