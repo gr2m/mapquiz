@@ -1,6 +1,6 @@
 define([
   'marionette',
-  'hbs!templates/answer',
+  'hbs!./answer',
   'lodash',
   'fittext'
 ], function (Marionette, answerTemplate, _, fitText) {

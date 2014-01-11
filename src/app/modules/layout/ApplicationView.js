@@ -1,14 +1,14 @@
 define([
   'marionette',
-  'views/MapView',
-  'views/ControlsView',
-  'views/AnswerView',
-  'hbs!templates/application'
-], function (Marionette, MapView, ControlsView, AnswerView, applicationTemplate) {
+  'modules/map/MapView',
+  'modules/controls/ControlsView',
+  'modules/answer/AnswerView',
+  'hbs!./layout'
+], function (Marionette, MapView, ControlsView, AnswerView, template) {
   'use strict';
 
   return Marionette.Layout.extend({
-    template: applicationTemplate,
+    template: template,
 
     regions: {
       map: '#map',

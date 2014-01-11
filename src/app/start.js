@@ -1,15 +1,10 @@
 require([
   'app',
-  'backbone',
-  'routers/index',
-  'controllers/index',
   'entities/CountriesEntity',
   'entities/ControlsEntity',
   'entities/AnswerEntity'
-], function (app, Backbone, Router, Controller) {
+], function (app) {
   'use strict';
 
   app.start();
-  new Router({ controller: Controller });
-  Backbone.history.start();
 });

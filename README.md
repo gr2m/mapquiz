@@ -11,9 +11,9 @@ and works on any device.
 The game is optimized for both, touch & keyboard usage. The
 following keybord shortcuts are supported:
 
-`+` / `-`: zoom in / out
-`1` - `4`: select answer 1 - 4
-`a` - `z`: select answer by first letter
+`+` / `-`: zoom in / out  
+`1` - `4`: select answer 1 - 4  
+`a` - `z`: select answer by first letter  
 
 
 ## Download & Install requirements
@@ -133,12 +133,6 @@ The `/src/app` files & folders en detail
     </td>
   </tr>
   <tr>
-    <th>controllers</th>
-    <td>
-      not used yet.
-    </td>
-  </tr>
-  <tr>
     <th>entities</th>
     <td>
       Manages access to the data across the modules. Initializes the two collections
@@ -150,20 +144,11 @@ The `/src/app` files & folders en detail
     <td>Holds the Country Model, but has not custom behavior yet.</td>
   </tr>
   <tr>
-    <th>routers</th>
-    <td>not used yet.</td>
-  </tr>
-  <tr>
-    <th>templates</th>
+    <th>modules</th>
     <td>
-      <a href="http://handlebarsjs.com/">Handlebars</a> Templates. The Application template gets rendered
-      in the <code>&lt;body&gt;</code> tag and holds the main structure of the application
-    </td>
-  </tr>
-  <tr>
-    <th>views</th>
-    <td>
-      Manages the interaction of the user with the DOM and renders the templates
+      Encapsulated modules of the app, currently being the map, the controls and the answer. All modules
+      consist of Backbone Views &amp; <a href="http://handlebarsjs.com/">Handlebars</a> Templates. If the
+      app would use Routers or Controllers, they'd go in the module folders as well.
     </td>
   </tr>
 </table>

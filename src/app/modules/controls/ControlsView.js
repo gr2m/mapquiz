@@ -1,6 +1,6 @@
 define([
   'marionette',
-  'hbs!templates/controls',
+  'hbs!./controls',
   'lodash',
   'jquery',
   'fittext',

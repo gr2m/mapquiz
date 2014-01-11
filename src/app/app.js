@@ -1,6 +1,6 @@
 define([
   'marionette',
-  'views/ApplicationView',
+  'modules/layout/ApplicationView',
   'fastclick',
 ], function (Marionette, ApplicationView, FastClick) {
   'use strict';

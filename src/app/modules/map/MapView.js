@@ -1,7 +1,7 @@
 define([
   'marionette',
   'leaflet',
-  'hbs!templates/map',
+  'hbs!./map',
   'mousetrap',
   'fastclick',
   'fittext',
