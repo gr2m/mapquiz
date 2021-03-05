@@ -31,10 +31,7 @@
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
   },
-  "repository": {
-    "type": "git",
-    "url": "git://github.com/gr2m/mapquiz.git"
-  },
+  "repository": "github:gr2m/mapquiz",
   "keywords": [
     "quiz",
     "javascript",
@@ -44,9 +41,5 @@
     "marionette"
   ],
   "author": "Gregor Martynus <gregor@martynus.net>",
-  "license": "MIT",
-  "bugs": {
-    "url": "https://github.com/gr2m/mapquiz/issues"
-  },
-  "homepage": "https://github.com/gr2m/mapquiz"
+  "license": "MIT"
 }
